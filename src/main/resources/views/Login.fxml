@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.text.Font?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.LoginController"
+            prefHeight="400.0" prefWidth="600.0">
+
+<children>
+    <GridPane prefHeight="309.0" prefWidth="507.0">
+        <columnConstraints>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="137.0" minHeight="10.0" prefHeight="95.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="197.0" minHeight="10.0" prefHeight="192.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+        <children>
+            <GridPane GridPane.rowIndex="1">
+                <columnConstraints>
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="240.0" minWidth="10.0" prefWidth="170.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" maxWidth="324.0" minWidth="10.0" prefWidth="319.0" />
+                </columnConstraints>
+                <rowConstraints>
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                </rowConstraints>
+                <children>
+                    <Label text="Username">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Label>
+                    <Label text="Password" GridPane.rowIndex="1">
+                        <font>
+                            <Font size="18.0" />
+                        </font>
+                    </Label>
+                    <TextField fx:id="username" GridPane.columnIndex="1" />
+                    <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                    <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                        <columnConstraints>
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        </columnConstraints>
+                        <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        </rowConstraints>
+                        <children>
+                            <Button fx:id="btnLogin" disable="true" mnemonicParsing="false" prefWidth="80.0" text="Login" GridPane.columnIndex="2" />
+                        </children>
+                    </GridPane>
+                </children>
+                <GridPane.margin>
+                    <Insets left="10.0" right="10.0" />
+                </GridPane.margin>
+            </GridPane>
+            <ImageView fitHeight="94.0" fitWidth="329.0" pickOnBounds="true" preserveRatio="true">
+                <image>
+                </image>
+            </ImageView>
+        </children>
+    </GridPane>
+</children>
+</AnchorPane>
