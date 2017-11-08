@@ -53,16 +53,17 @@ public class DetailMediaViewController {
         labelAuthor.setText(media.getAuthor());
         labelPublisher.setText(media.getPublisher());
         lableTags.setText(media.getTags());
-        lableGenre.setText(media.getGenre());
-        ;
+        lableGenre.setText(media.getGenre() != null ? media.getGenre().toString() : " ");
         lableReleaseDate.setText(media.getReleaseDate() != null ? media.getReleaseDate().toString() : " ");
-        List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(media);
-        ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
-        for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
-            mediaEntries.add(new PhysicalMediaEntry(physicalMedia1.getIndex(), physicalMedia1.getAvailability().toString()));
-        }
-        tableView.setItems(mediaEntries);
 
+        List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(media);
+        if(physicalMedia != null) {
+            ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
+            for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
+                mediaEntries.add(new PhysicalMediaEntry(physicalMedia1.getIndex(), physicalMedia1.getAvailability().toString()));
+            }
+            tableView.setItems(mediaEntries);
+        }
     }
 
     private void initColumns() {
