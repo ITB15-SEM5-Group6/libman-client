@@ -79,24 +79,10 @@ public class SearchController {
     void search(ActionEvent event) throws RemoteException {
         tableView.getItems().clear();
         String searchText = searchTextField.getText();
-        searchText = searchText.toUpperCase();
         ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
         List<MediaDTO> allMedia = new LinkedList<>();
-        boolean mediaFilter = comboMediatype.getSelectionModel().isEmpty();
-        boolean availFilter = comboAvailabilty.getSelectionModel().isEmpty();
-        boolean genreFilter = comboGenre.getSelectionModel().isEmpty();
-        if (searchText.length() > 0) {
-            if (mediaFilter && availFilter && genreFilter) {
-                allMedia = ClientController.getInstance().findAllMedia(searchText);
-            } else if (!mediaFilter && !availFilter) {
-                allMedia = ClientController.getInstance().findAllMedia(searchText, comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
-            }
-        } else {
-            if (mediaFilter && availFilter && genreFilter) {
-                allMedia = ClientController.getInstance().findAllMedia();
-            } else if (!mediaFilter) {
-            }
-        }
+
+        allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
 
         for (MediaDTO media : allMedia) {
             mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), " ", media));

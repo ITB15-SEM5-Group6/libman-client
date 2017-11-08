@@ -78,6 +78,4 @@ public class DetailMediaViewController {
         tableView.getColumns().addAll(indexCol, availCol);
 
     }
-
-
 }

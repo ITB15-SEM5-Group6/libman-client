@@ -4,6 +4,7 @@ package at.fhv.itb.sem5.team6.libman.client.backend;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
+import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibrary;
 
@@ -29,14 +30,6 @@ public class ClientController {
         ClientController.library = library;
     }
 
-    public List<MediaDTO> findAllMedia(String text) throws RemoteException {
-        return library.findAllMedia();
-    }
-
-    public List<MediaDTO> findAllMedia() throws RemoteException {
-        return library.findAllMedia();
-    }
-
     public List<PhysicalMediaDTO> getPhysicalMedia(MediaDTO media) throws RemoteException {
         return library.getPhysicalMedia(media);
     }
@@ -45,7 +38,7 @@ public class ClientController {
         return library.findAllPhysicalMedia();
     }
 
-    public List<MediaDTO> findAllMedia(String text, MediaType type, Availability availability) throws RemoteException {
-        return library.findAllMedia(text, type, availability);
+    public List<MediaDTO> findAllMedia(String text, Genre genre, MediaType type, Availability availability) throws RemoteException {
+        return library.findAllMedia(text, genre, type, availability);
     }
 }
