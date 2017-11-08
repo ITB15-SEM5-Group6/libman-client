@@ -106,24 +106,22 @@ public class SearchController {
 
     @FXML
     void clickItem(MouseEvent event) {
-        selectedMedia = tableView.getSelectionModel().getSelectedItem().getMediaDTO();
-        if (event.getClickCount() == 2) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/views/DetailMediaView.fxml"));
-            Scene scene = null;
-            try {
-                scene = new Scene(fxmlLoader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (tableView.getItems().size() > 0) {
+            selectedMedia = tableView.getSelectionModel().getSelectedItem().getMediaDTO();
+            if (event.getClickCount() == 2) {
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/views/DetailMediaView.fxml"));
+                Scene scene = null;
+                try {
+                    scene = new Scene(fxmlLoader.load());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Stage stage = new Stage();
+                stage.setTitle("Detail View");
+                stage.setScene(scene);
+                stage.show();
             }
-            Stage stage = new Stage();
-            stage.setTitle("Detail View");
-            stage.setScene(scene);
-            stage.show();
         }
     }
-
-
-
-
 }
