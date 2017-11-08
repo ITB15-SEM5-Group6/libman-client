@@ -1,6 +1,6 @@
 package at.fhv.itb.sem5.team6.libman.client;
 
-import at.fhv.itb.sem5.team6.libman.server.model.Availability;
+import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibrary;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibraryFactory;
 
@@ -33,6 +33,15 @@ public class ClientTest {
         //stub.findAllMedia("feu").forEach(System.out::println);
         
         /*
+
+
+        // connect rmi
+        Registry registry = LocateRegistry.getRegistry(host, port);
+        ILibraryFactory stubFactory = (ILibraryFactory) registry.lookup("LibraryFactory");
+        ILibrary stub = stubFactory.create();
+        ClientController.setLibrary(stub);
+
+
         try {
             Registry registry = LocateRegistry.getRegistry(host,port);
             ILibraryFactory stub = (ILibraryFactory) registry.lookup("LibraryFactory");

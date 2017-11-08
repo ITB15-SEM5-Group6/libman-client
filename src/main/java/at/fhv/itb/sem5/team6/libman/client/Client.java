@@ -9,18 +9,19 @@ import javafx.stage.Stage;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.Locale;
 
 public class Client extends Application {
 
     static String host = "localhost";
     static int port = 1099;
 
+    public static void main(String[] args) {
+        launch(args);
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Locale.setDefault(Locale.UK);
 
-        // connect rmi
         Registry registry = LocateRegistry.getRegistry(host, port);
         ILibraryFactory stubFactory = (ILibraryFactory) registry.lookup("LibraryFactory");
         ILibrary stub = stubFactory.create();
@@ -29,9 +30,5 @@ public class Client extends Application {
         // start gui
         ClientGUI gui = new ClientGUI();
         gui.loadGUI(primaryStage);
-    }
-
-    public static void main(String[] args) {
-          launch(args);
     }
 }
