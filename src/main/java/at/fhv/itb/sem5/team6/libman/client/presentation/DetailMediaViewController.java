@@ -117,7 +117,6 @@ public class DetailMediaViewController {
             detailStage.setScene(scene);
             detailStage.show();
         }
-
     }
 
     @FXML

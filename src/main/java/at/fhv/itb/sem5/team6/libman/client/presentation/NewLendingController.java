@@ -1,10 +1,13 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
+
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,8 +18,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
 import java.rmi.RemoteException;
+
 import java.util.LinkedList;
 import java.util.List;
+
 
 public class NewLendingController {
 
@@ -43,8 +48,6 @@ public class NewLendingController {
     @FXML
     public void initialize() throws RemoteException {
         initColumns();
-
-
     }
 
     private void initColumns() {
@@ -77,17 +80,17 @@ public class NewLendingController {
     }
 
     @FXML
+
     void save(ActionEvent event) throws RemoteException {
         CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
-        if(customerDTO != null) {
-            if(ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null ) {
+        if (customerDTO != null) {
+            if (ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null) {
                 // SUCCESS MESSAGE AND CLOSE WINDOW
             } else {
                 // FAILURE MESSAGE
             }
 
         }
-
     }
 
     @FXML
@@ -95,16 +98,16 @@ public class NewLendingController {
         String searchText = textFieldSearchCustomer.getText();
         ObservableList<CustomerEntry> customerEntries = FXCollections.observableArrayList();
         List<CustomerDTO> allCustomer = new LinkedList<>();
-        if(searchText.length() > 0) {
+        if (searchText.length() > 0) {
             allCustomer = ClientController.getInstance().getCustomers(searchText);
         } else {
             allCustomer = ClientController.getInstance().getAllCustomers();
         }
 
-        for(CustomerDTO customerDTO : allCustomer) {
+        for (CustomerDTO customerDTO : allCustomer) {
             customerEntries.addAll(new CustomerEntry(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(), customerDTO.getAddress(), customerDTO));
         }
         tableView.setItems(customerEntries);
-
     }
+
 }
