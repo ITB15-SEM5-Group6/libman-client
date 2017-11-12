@@ -5,13 +5,19 @@ import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -20,6 +26,8 @@ import java.util.List;
  * Created by Christina on 07.11.2017.
  */
 public class DetailMediaViewController {
+
+    static Stage detailStage;
 
     @FXML
     private Label titleLabel;
@@ -44,6 +52,8 @@ public class DetailMediaViewController {
     @FXML
     private Button buttonLend;
 
+    private static PhysicalMediaDTO selectedPhysicalMedia;
+
     @FXML
     public void initialize() throws RemoteException {
         initColumns();
@@ -64,9 +74,16 @@ public class DetailMediaViewController {
         if(physicalMedia != null) {
             ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
             for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
-                mediaEntries.add(new PhysicalMediaEntry(physicalMedia1.getIndex(), physicalMedia1.getAvailability().toString()));
+                mediaEntries.add(new PhysicalMediaEntry(physicalMedia1.getIndex(), physicalMedia1.getAvailability().toString(), physicalMedia1));
             }
             tableView.setItems(mediaEntries);
+        }
+    }
+
+    @FXML
+    void clickItem(MouseEvent event) {
+        if (tableView.getItems().size() > 0) {
+            selectedPhysicalMedia = tableView.getSelectionModel().getSelectedItem().getPhysicalMediaDTO();
         }
     }
 
@@ -81,5 +98,20 @@ public class DetailMediaViewController {
 
         tableView.getColumns().addAll(indexCol, availCol);
 
+    }
+
+    @FXML
+    void lend(ActionEvent event) {
+        //CHECK IF ITEM CAN BE LENT
+
+    }
+
+    @FXML
+    void reserve(ActionEvent event) {
+
+    }
+
+    public static PhysicalMediaDTO getCurrentSelectedPhysicalMedia() {
+        return selectedPhysicalMedia;
     }
 }
