@@ -113,6 +113,7 @@ public class SearchController {
                 Stage stage = new Stage();
                 stage.setTitle("Detail View");
                 stage.setScene(scene);
+                DetailMediaViewController.detailStage = stage;
                 stage.show();
             }
         }
