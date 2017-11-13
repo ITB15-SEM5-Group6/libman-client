@@ -13,6 +13,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -46,6 +47,8 @@ public class DetailMediaViewController {
     @FXML
     public void initialize() throws RemoteException {
         initColumns();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
         MediaDTO media = SearchController.getCurrentSelectedMedia();
         titleLabel.setText(media.getTitle());
         labelMediaType.setText(media.getType().toString());
@@ -54,7 +57,8 @@ public class DetailMediaViewController {
         labelPublisher.setText(media.getPublisher());
         lableTags.setText(media.getTags());
         lableGenre.setText(media.getGenre() != null ? media.getGenre().toString() : " ");
-        lableReleaseDate.setText(media.getReleaseDate() != null ? media.getReleaseDate().toString() : " ");
+
+        lableReleaseDate.setText(media.getReleaseDate() != null ? sdf.format(media.getReleaseDate()).toString() : " ");
 
         List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(media);
         if(physicalMedia != null) {
