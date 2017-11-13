@@ -32,7 +32,7 @@ public class ClientGUI {
     public void loadGUI(Stage primaryStage) throws IOException{
 
         primaryStage.setTitle("LIBMAN");
-        //primaryStage.setResizable(false);
+        primaryStage.setResizable(false);
         primaryStage.setMaximized(true);
 
 
