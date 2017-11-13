@@ -21,24 +21,24 @@ public class CustomerEntry {
         this.customerDTO = customerDTO;
     }
 
-    public SimpleStringProperty getFirstName() {
-        return firstName;
+    public String getFirstName() {
+        return firstName.get();
     }
 
-    public SimpleStringProperty getLastName() {
-        return lastName;
+    public String getLastName() {
+        return lastName.get();
     }
 
-    public SimpleStringProperty getEmail() {
-        return email;
+    public String getEmail() {
+        return email.get();
     }
 
-    public SimpleStringProperty getPhoneNumber() {
-        return phoneNumber;
+    public String getPhoneNumber() {
+        return phoneNumber.get();
     }
 
-    public SimpleStringProperty getAddress() {
-        return address;
+    public String getAddress() {
+        return address.get();
     }
 
     public CustomerDTO getCustomerDTO() {

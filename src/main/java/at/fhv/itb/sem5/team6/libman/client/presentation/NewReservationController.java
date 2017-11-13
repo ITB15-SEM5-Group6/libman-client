@@ -1,12 +1,9 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
-import javafx.collections.ObservableList;
-
-import java.rmi.RemoteException;
-
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -15,12 +12,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
-
-public class NewLendingController {
-
+/**
+ * Created by Christina on 13.11.2017.
+ */
+public class NewReservationController {
     @FXML
     private TextField textFieldSearchCustomer;
 
@@ -31,15 +31,10 @@ public class NewLendingController {
     private TableView<CustomerEntry> tableView;
 
     @FXML
-    private Button buttonSaveLending;
+    private Button buttonSaveReservation;
 
     @FXML
-    private Button buttonCancelLending;
-
-    @FXML
-    void cancel(ActionEvent event) {
-
-    }
+    private Button buttonCancelReservation;
 
     @FXML
     public void initialize() throws RemoteException {
@@ -71,43 +66,34 @@ public class NewLendingController {
     }
 
     @FXML
+    void cancel(ActionEvent event) {
+
+    }
+
+    @FXML
     void clickItem(MouseEvent event) {
 
     }
 
     @FXML
-    void save(ActionEvent event) throws RemoteException {
-        CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
+    void save(ActionEvent event) {
 
-        if(customerDTO != null) {
-            if(ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null ) {
-                DetailMediaViewController.detailStage.close();
-                MessageHelper.showConfirmationMessage("New Lending saved!");
-            } else {
-                MessageHelper.showErrorAlertMessage("Lending could not be saved!");
-            }
-
-        }
     }
-
 
     @FXML
     void searchCustomer(ActionEvent event) throws RemoteException {
         String searchText = textFieldSearchCustomer.getText();
         ObservableList<CustomerEntry> customerEntries = FXCollections.observableArrayList();
         List<CustomerDTO> allCustomer = new LinkedList<>();
-        if(searchText.length() > 0) {
+        if (searchText.length() > 0) {
             allCustomer = ClientController.getInstance().getCustomers(searchText);
         } else {
             allCustomer = ClientController.getInstance().getAllCustomers();
         }
 
-
         for (CustomerDTO customerDTO : allCustomer) {
             customerEntries.addAll(new CustomerEntry(customerDTO.getFirstName(), customerDTO.getLastName(), customerDTO.getEmail(), customerDTO.getPhoneNumber(), customerDTO.getAddress(), customerDTO));
         }
         tableView.setItems(customerEntries);
-
     }
-
 }
