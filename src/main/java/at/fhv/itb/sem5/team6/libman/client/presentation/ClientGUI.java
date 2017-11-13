@@ -3,6 +3,7 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ public class ClientGUI {
         Parent parent = loader.load();
         scene = new Scene(parent);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
         primaryStage.show();
         this.primaryStage = primaryStage;
     }
@@ -41,6 +43,7 @@ public class ClientGUI {
         Parent parent = loader.load();
         scene = new Scene(parent);
         primaryStage.setScene(scene);
+        primaryStage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
         primaryStage.show();
         this.primaryStage = primaryStage;
 
