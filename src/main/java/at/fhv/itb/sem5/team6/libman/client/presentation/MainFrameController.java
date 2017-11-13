@@ -22,6 +22,8 @@ public class MainFrameController {
     @FXML
     private Button customerButton;
     @FXML
+    private Button lendingButton;
+    @FXML
     private AnchorPane splitPaneRight;
 
 
@@ -43,4 +45,12 @@ public class MainFrameController {
 
     }
 
+
+    @FXML
+    void openLendings(ActionEvent event) throws IOException {
+        splitPaneRight.getChildren().clear();
+        FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/Lending.fxml"));
+        Parent parent = loader.load();
+        splitPaneRight.getChildren().add(parent);
+    }
 }
