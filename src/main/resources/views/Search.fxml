@@ -59,9 +59,9 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <ComboBox fx:id="comboMediatype" prefWidth="150.0" promptText="Choose MediaType..." GridPane.rowIndex="1" />
-                        <ComboBox fx:id="comboGenre" prefWidth="150.0" promptText="Choose Genre..." GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="comboAvailabilty" prefWidth="150.0" promptText="Availability ... " GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboMediatype" prefWidth="150.0" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboGenre" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="comboAvailabilty" prefWidth="150.0" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                         <Label text="Filter options" GridPane.columnIndex="1">
                            <font>
                               <Font size="15.0" />

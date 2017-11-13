@@ -54,6 +54,7 @@ public class SearchController {
     public void initialize() {
         initTable();
         initFilterOptions();
+        showFirstEntry();
     }
 
     private void initFilterOptions() {
@@ -63,6 +64,12 @@ public class SearchController {
         comboMediatype.getItems().addAll(mediaTyps);
         comboAvailabilty.getItems().addAll(availabilities);
         comboGenre.getItems().addAll(genres);
+    }
+
+    private void showFirstEntry() {
+        comboMediatype.getSelectionModel().selectFirst();
+        comboAvailabilty.getSelectionModel().selectFirst();
+        comboGenre.getSelectionModel().selectFirst();
     }
 
     private void initTable() {
