@@ -30,7 +30,7 @@
         <dependency>
             <groupId>com.github.ITB15-SEM5-Group6</groupId>
             <artifactId>libman-shared</artifactId>
-            <version>0.3</version>
+            <version>0.8</version>
         </dependency>
 
         <!-- Lombok for getters, setters, constructors -->
@@ -42,13 +42,5 @@
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-    
+
 </project>
