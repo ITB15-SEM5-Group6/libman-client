@@ -78,9 +78,11 @@ public class NewLendingController {
     @FXML
     void save(ActionEvent event) throws RemoteException {
         CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
-        if (customerDTO != null) {
-            if (ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null) {
-                // SUCCESS MESSAGE AND CLOSE WINDOW
+
+        if(customerDTO != null) {
+            if(ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null ) {
+                DetailMediaViewController.detailStage.close();
+                MessageHelper.showConfirmationMessage("New Lending saved!");
             } else {
                 // FAILURE MESSAGE
             }
