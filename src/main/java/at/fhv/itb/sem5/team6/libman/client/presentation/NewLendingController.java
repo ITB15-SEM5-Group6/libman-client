@@ -81,7 +81,8 @@ public class NewLendingController {
         CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
         if(customerDTO != null) {
             if(ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null ) {
-                // SUCCESS MESSAGE AND CLOSE WINDOW
+                DetailMediaViewController.detailStage.close();
+                MessageHelper.showConfirmationMessage("New Lending saved!");
             } else {
                 // FAILURE MESSAGE
             }
