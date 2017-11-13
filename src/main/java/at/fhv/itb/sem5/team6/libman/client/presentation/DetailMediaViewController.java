@@ -3,6 +3,7 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -98,7 +99,20 @@ public class DetailMediaViewController {
 
     @FXML
     void lend(ActionEvent event) {
-        //CHECK IF ITEM CAN BE LENT
+        if(Availability.AVAILABLE.equals(selectedPhysicalMedia.getAvailability())) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/views/NewLendingView.fxml"));
+            Scene scene = null;
+            try {
+                scene = new Scene(fxmlLoader.load());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            detailStage = new Stage();
+            detailStage.setTitle("New Lending");
+            detailStage.setScene(scene);
+            detailStage.show();
+        }
 
     }
 
