@@ -28,8 +28,9 @@ import java.util.List;
  */
 public class DetailMediaViewController {
 
+    public static MediaDTO mediaDTO;
     static Stage detailStage;
-
+    private static PhysicalMediaDTO selectedPhysicalMedia;
     @FXML
     private Label titleLabel;
     @FXML
@@ -53,25 +54,27 @@ public class DetailMediaViewController {
     @FXML
     private Button buttonLend;
 
-    private static PhysicalMediaDTO selectedPhysicalMedia;
+    public static PhysicalMediaDTO getCurrentSelectedPhysicalMedia() {
+        return selectedPhysicalMedia;
+    }
 
     @FXML
     public void initialize() throws RemoteException {
         initColumns();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
-        MediaDTO media = SearchController.getCurrentSelectedMedia();
-        titleLabel.setText(media.getTitle());
-        labelMediaType.setText(media.getType().toString());
-        labelISBN.setText(media.getIsbn());
-        labelAuthor.setText(media.getAuthor());
-        labelPublisher.setText(media.getPublisher());
-        lableTags.setText(media.getTags());
-        lableGenre.setText(media.getGenre() != null ? media.getGenre().toString() : " ");
+        mediaDTO = SearchController.getCurrentSelectedMedia();
+        titleLabel.setText(mediaDTO.getTitle());
+        labelMediaType.setText(mediaDTO.getType().toString());
+        labelISBN.setText(mediaDTO.getIsbn());
+        labelAuthor.setText(mediaDTO.getAuthor());
+        labelPublisher.setText(mediaDTO.getPublisher());
+        lableTags.setText(mediaDTO.getTags());
+        lableGenre.setText(mediaDTO.getGenre() != null ? mediaDTO.getGenre().toString() : " ");
 
-        lableReleaseDate.setText(media.getReleaseDate() != null ? sdf.format(media.getReleaseDate()).toString() : " ");
+        lableReleaseDate.setText(mediaDTO.getReleaseDate() != null ? sdf.format(mediaDTO.getReleaseDate()).toString() : " ");
 
-        List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(media);
+        List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(mediaDTO);
         if(physicalMedia != null) {
             ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
             for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
@@ -122,9 +125,5 @@ public class DetailMediaViewController {
     @FXML
     void reserve(ActionEvent event) {
 
-    }
-
-    public static PhysicalMediaDTO getCurrentSelectedPhysicalMedia() {
-        return selectedPhysicalMedia;
     }
 }
