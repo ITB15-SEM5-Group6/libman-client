@@ -29,6 +29,6 @@ public class Client extends Application {
 
         // start gui
         ClientGUI gui = new ClientGUI();
-        gui.loadGUI(primaryStage);
+        gui.showLogin(primaryStage);
     }
 }

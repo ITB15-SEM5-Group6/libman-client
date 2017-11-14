@@ -24,7 +24,6 @@ public class MainFrameController {
     @FXML
     private AnchorPane splitPaneRight;
 
-
     @FXML
     void openSearch(ActionEvent event) throws IOException {
         splitPaneRight.getChildren().clear();
@@ -34,7 +33,6 @@ public class MainFrameController {
 
     }
 
-
     @FXML
     void openAddCustomer(ActionEvent event) throws IOException {
         splitPaneRight.getChildren().clear();
@@ -43,5 +41,4 @@ public class MainFrameController {
         splitPaneRight.getChildren().add(parent);
 
     }
-
 }
