@@ -32,4 +32,9 @@ public class LoginController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    void login(ActionEvent event) {
+
+    }
 }
