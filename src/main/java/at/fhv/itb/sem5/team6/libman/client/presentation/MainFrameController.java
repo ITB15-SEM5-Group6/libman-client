@@ -31,7 +31,6 @@ public class MainFrameController {
         FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/Search.fxml"));
         Parent parent = loader.load();
         splitPaneRight.getChildren().add(parent);
-
     }
 
 
