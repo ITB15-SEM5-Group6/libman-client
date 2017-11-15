@@ -43,7 +43,6 @@ public class ClientController {
         return library.findAllMedia(text, genre, type, availability);
     }
 
-    /*public List<LendingDTO> findAllLending(){
-        return library.findAllLending();
-    }*/
+
+
 }

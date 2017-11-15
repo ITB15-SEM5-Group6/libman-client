@@ -1,39 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.CustomerDetailView">
+<VBox prefHeight="520.0" prefWidth="820.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.DetailCustomerViewController">
    <children>
-      <GridPane layoutX="49.0" layoutY="56.0" prefHeight="45.0" prefWidth="391.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints maxHeight="15.0" minHeight="9.0" prefHeight="9.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="15.0" minHeight="9.0" prefHeight="9.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="21.0" minHeight="10.0" prefHeight="21.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
          <children>
-            <GridPane prefHeight="49.0" prefWidth="18.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <GridPane layoutX="155.0" layoutY="65.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               </columnConstraints>
+               <rowConstraints>
+                  <RowConstraints maxHeight="128.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="228.0" minHeight="10.0" prefHeight="84.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="318.0" minHeight="10.0" prefHeight="318.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="282.0" minHeight="10.0" prefHeight="56.0" vgrow="SOMETIMES" />
+               </rowConstraints>
+               <children>
+                  <Label fx:id="customerLabel" text="Customer">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Label>
+                  <GridPane GridPane.rowIndex="1">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Surname">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="Name" GridPane.columnIndex="1">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="E-Mail" GridPane.columnIndex="2">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="Adress" GridPane.columnIndex="3">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="Phone" GridPane.columnIndex="4">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="Iban" GridPane.columnIndex="5">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label text="BIC" GridPane.columnIndex="6">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="labelSurname" text="Label" GridPane.rowIndex="1" />
+                        <Label fx:id="labelName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="labelEMail" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label fx:id="labelAdress" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="labelPhone" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                        <Label fx:id="lableIban" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                        <Label fx:id="lableBIC" text="Label" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.rowIndex="3">
+                     <columnConstraints>
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Button fx:id="buttonReserve" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" text="Extend Lending" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                        <Button fx:id="buttonLend" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" text="Restore" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+                  <GridPane GridPane.rowIndex="2">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints maxHeight="101.60000610351562" minHeight="4.799999952316284" prefHeight="30.80001449584961" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="278.7999855041504" minHeight="10.0" prefHeight="278.7999855041504" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <TableView fx:id="tableViewLendings" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                           <columns>
+                              <TableColumn fx:id="lendingTitleColumn" prefWidth="110.40002131462097" text="Titel" />
+                              <TableColumn fx:id="LendingMediaTypeColumn" prefWidth="106.4000244140625" text="Media Type" />
+                              <TableColumn fx:id="LendingLendDateColumn" prefWidth="93.59999084472656" text="Lend Date" />
+                              <TableColumn fx:id="LendingIndexColumn" prefWidth="98.39996337890625" text="Index" />
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="tableViewReservation" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <columns>
+                              <TableColumn fx:id="ReservationTitleColumn" prefWidth="75.0" text="Titel" />
+                              <TableColumn fx:id="ReservationDateColumn" prefWidth="75.0" text="Date" />
+                           </columns>
+                        </TableView>
+                        <Label alignment="CENTER" contentDisplay="CENTER" text="Lendings" GridPane.halignment="CENTER" />
+                        <Label text="Reservations" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                     </children>
+                  </GridPane>
+               </children>
             </GridPane>
-            <Label text="Label" />
          </children>
-      </GridPane>
+      </AnchorPane>
    </children>
-</AnchorPane>
+</VBox>
