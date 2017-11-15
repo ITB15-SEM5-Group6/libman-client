@@ -1,8 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.backend;
 
 
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
@@ -31,14 +30,31 @@ public class ClientController {
     }
 
     public List<PhysicalMediaDTO> getPhysicalMedia(MediaDTO media) throws RemoteException {
-        return library.getPhysicalMedia(media);
+        return library.findPhysicalMedias(media);
     }
 
     public List<PhysicalMediaDTO> findAllPhysicalMedia() throws RemoteException {
-        return library.findAllPhysicalMedia();
+        return library.findPhysicalMedias();
     }
 
     public List<MediaDTO> findAllMedia(String text, Genre genre, MediaType type, Availability availability) throws RemoteException {
-        return library.findAllMedia(text, genre, type, availability);
+        return library.findMedias(text, genre, type, availability);
     }
+
+    public List<CustomerDTO> getCustomers(String text) throws RemoteException {
+        return library.findCustomers(text);
+    }
+
+    public List<CustomerDTO> getAllCustomers() throws RemoteException {
+        return library.findCustomers();
+    }
+
+    public LendingDTO lendPhysicalMedia(PhysicalMediaDTO physicalMediaDTO, CustomerDTO customerDTO) throws RemoteException {
+        return library.lend(physicalMediaDTO, customerDTO);
+    }
+
+    public ReservationDTO reserve(MediaDTO mediaDTO, CustomerDTO customerDTO) throws RemoteException {
+        return library.reserve(mediaDTO, customerDTO);
+    }
+
 }

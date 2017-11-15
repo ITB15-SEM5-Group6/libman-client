@@ -29,6 +29,7 @@ public class ClientGUI {
 
     public void loadMainFrame(Stage primaryStage) throws IOException{
         primaryStage.setTitle("LIBMAN");
+        primaryStage.setResizable(false);
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(t -> {
             //closeLIBMAN();
