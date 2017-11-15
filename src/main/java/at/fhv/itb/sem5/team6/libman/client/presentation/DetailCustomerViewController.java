@@ -1,14 +1,20 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.rmi.RemoteException;
+import java.util.LinkedList;
+import java.util.List;
 
 public class DetailCustomerViewController {
 
@@ -18,12 +24,6 @@ public class DetailCustomerViewController {
 
     @FXML
     private Label customerLabel;
-
-    @FXML
-    private Label labelSurname;
-
-    @FXML
-    private Label labelName;
 
     @FXML
     private Label labelEMail;
@@ -70,18 +70,17 @@ public class DetailCustomerViewController {
     @FXML
     private TableColumn<ReservationEntry, String> ReservationDateColumn;
 
-    public void initialize() {
+    public void initialize() throws RemoteException {
         initColumns();
-        CustomerDTO customer = CustomerSearchController.getSelectedCustomer();
-        customerLabel.setText(customer.getLastName());
+        customerDTO = CustomerSearchController.getSelectedCustomer();
+        customerLabel.setText(customerDTO.getFirstName() + " " + customerDTO.getLastName());
+        labelAdress.setText(customerDTO.getAddress());
+        labelEMail.setText(customerDTO.getEmail());
+        labelPhone.setText(customerDTO.getPhoneNumber());
+        lableIban.setText(customerDTO.getIban());
+        lableBIC.setText(customerDTO.getBic());
 
-        labelSurname.setText(customer.getLastName());
-        labelName.setText(customer.getFirstName());
-        labelAdress.setText(customer.getAddress());
-        labelEMail.setText(customer.getEmail());
-        labelPhone.setText(customer.getPhoneNumber());
-        lableIban.setText(customer.getIban());
-        lableBIC.setText(customer.getBic());
+        initTableValues();
 
     }
 
@@ -101,14 +100,76 @@ public class DetailCustomerViewController {
         ReservationDateColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
         ReservationTitleColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
 
-        ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("lendingDate"));
-        ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("lendingDate"));
-
-
-
-
+        ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("media"));
+        ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("date"));
 
     }
 
+    private void initTableValues(){
+
+        tableViewLendings.getItems().clear();
+        ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
+        List<LendingDTO> allLendings = new LinkedList<>();
+
+        try {
+            allLendings = ClientController.getInstance().getAllLendings(customerDTO);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
+
+        for (LendingDTO lending : allLendings) {
+            lendingEntries.add(new LendingEntry(lending.getPhysicalMedia().getMedia().getTitle(),lending.getPhysicalMedia().getMedia().getType().toString(), lending.getPhysicalMedia().getIndex(),lending.getLendDate().toString(), customerDTO, lending.getPhysicalMedia(), lending));
+        }
+        tableViewLendings.setItems(lendingEntries);
+
+        tableViewReservation.getItems().clear();
+        ObservableList<ReservationEntry> reservationEntries = FXCollections.observableArrayList();
+        List<ReservationDTO> allReservations = new LinkedList<>();
+
+        try {
+            allReservations = ClientController.getInstance().getAllReservations(customerDTO);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
+
+        for (ReservationDTO reservation : allReservations) {
+            reservationEntries.add(new ReservationEntry(reservation.getMedia().getTitle(),reservation.getMedia().getType().toString(), customerDTO, reservation.getMedia(), reservation));
+        }
+
+        tableViewReservation.setItems(reservationEntries);
+
+    }
+
+    @FXML
+    void extend(ActionEvent event) {
+        LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
+        if(lendingDTO != null) {
+            try {
+                if(ClientController.getInstance().extendLending(lendingDTO) != null) {
+                    MessageHelper.showConfirmationMessage("Extention successful!");
+                }
+            } catch (RemoteException e) {
+               MessageHelper.showConfirmationMessage(e.getMessage());
+            }
+        } else {
+            MessageHelper.showErrorAlertMessage("No lending object selected!");
+        }
+
+    }
+
+    @FXML
+    void returnLending(ActionEvent event) {
+        LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
+        if(lendingDTO != null) {
+            try {
+                ClientController.getInstance().returnLending(lendingDTO);
+            } catch (RemoteException e) {
+                MessageHelper.showConfirmationMessage(e.getMessage());
+            }
+        } else {
+            MessageHelper.showErrorAlertMessage("No lending object selected!");
+        }
+
+    }
 
 }

@@ -38,56 +38,42 @@
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                        <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Label text="Surname">
+                        <Label text="E-Mail">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Name" GridPane.columnIndex="1">
+                        <Label text="Adress" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="E-Mail" GridPane.columnIndex="2">
+                        <Label text="Phone" GridPane.columnIndex="2">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Adress" GridPane.columnIndex="3">
+                        <Label text="Iban" GridPane.columnIndex="3">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Phone" GridPane.columnIndex="4">
+                        <Label text="BIC" GridPane.columnIndex="4">
                            <font>
                               <Font name="System Bold" size="12.0" />
                            </font>
                         </Label>
-                        <Label text="Iban" GridPane.columnIndex="5">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label text="BIC" GridPane.columnIndex="6">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="labelSurname" text="Label" GridPane.rowIndex="1" />
-                        <Label fx:id="labelName" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <Label fx:id="labelEMail" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                        <Label fx:id="labelAdress" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                        <Label fx:id="labelPhone" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-                        <Label fx:id="lableIban" text="Label" GridPane.columnIndex="5" GridPane.rowIndex="1" />
-                        <Label fx:id="lableBIC" text="Label" GridPane.columnIndex="6" GridPane.rowIndex="1" />
+                        <Label fx:id="labelEMail" text="Label" GridPane.rowIndex="1" />
+                        <Label fx:id="labelAdress" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label fx:id="labelPhone" text="Label" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                        <Label fx:id="lableIban" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <Label fx:id="lableBIC" text="Label" GridPane.columnIndex="4" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <GridPane GridPane.rowIndex="3">
@@ -99,8 +85,19 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <Button fx:id="buttonReserve" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" text="Extend Lending" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-                        <Button fx:id="buttonLend" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" text="Restore" GridPane.halignment="CENTER" />
+                        <GridPane>
+                          <columnConstraints>
+                            <ColumnConstraints halignment="RIGHT" hgrow="ALWAYS" percentWidth="50.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="50.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Button fx:id="buttonLend" mnemonicParsing="false" onAction="#returnLending" prefHeight="38.0" prefWidth="136.0" text="Return Lending" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                              <Button fx:id="buttonReserve" mnemonicParsing="false" onAction="#extend" prefHeight="38.0" prefWidth="136.0" text="Extend Lending" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                           </children>
+                        </GridPane>
                      </children>
                   </GridPane>
                   <GridPane GridPane.rowIndex="2">

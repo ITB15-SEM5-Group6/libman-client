@@ -60,14 +60,17 @@ public class CustomerSearchController {
     }
 
     @FXML
-    void search(ActionEvent event) throws RemoteException {
+    void search(ActionEvent event) {
         tableView.getItems().clear();
         String searchText = searchField.getText();
         ObservableList<CustomerSearchEntry> customerSearchEntries = FXCollections.observableArrayList();
         List<CustomerDTO> allCustomers = new LinkedList<>();
 
-        //TODO: findAllCustomers();
-        //allCustomer = ClientController.getInstance().findAllCustomers();
+        try {
+            allCustomers = ClientController.getInstance().getCustomers(searchText);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
 
         for (CustomerDTO customer : allCustomers) {
             customerSearchEntries.add(new CustomerSearchEntry(customer.getLastName(), customer.getFirstName(), customer));

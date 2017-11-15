@@ -14,6 +14,7 @@ public class ReservationEntry {
     private MediaDTO mediaDTO;
     private ReservationDTO reservationDTO;
 
+
     public ReservationEntry(String media, String date, CustomerDTO customerDTO, MediaDTO mediaDTO, ReservationDTO reservationDTO) {
         this.media = new SimpleStringProperty(media);
         this.date = new SimpleStringProperty(date);
@@ -30,23 +31,23 @@ public class ReservationEntry {
         return media;
     }
 
-    public void setMedia(String media) {
-        this.media.set(media);
+    public String getDate() {
+        return date.get();
+    }
+
+    public SimpleStringProperty dateProperty() {
+        return date;
     }
 
     public CustomerDTO getCustomerDTO() {
         return customerDTO;
     }
 
-    public void setCustomerDTO(CustomerDTO customerDTO) {
-        this.customerDTO = customerDTO;
-    }
-
     public MediaDTO getMediaDTO() {
         return mediaDTO;
     }
 
-    public void setMediaDTO(MediaDTO mediaDTO) {
-        this.mediaDTO = mediaDTO;
+    public ReservationDTO getReservationDTO() {
+        return reservationDTO;
     }
 }

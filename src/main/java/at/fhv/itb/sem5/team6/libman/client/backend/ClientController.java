@@ -63,5 +63,22 @@ public class ClientController {
         return library.reserve(mediaDTO, customerDTO);
     }
 
+    public List<LendingDTO> getAllLendings(CustomerDTO customerDTO) throws RemoteException {
+        return library.findLendings(customerDTO);
+    }
+
+    public List<ReservationDTO> getAllReservations(CustomerDTO customerDTO) throws RemoteException{
+        return  library.findReservations(customerDTO);
+    }
+
+    public LendingDTO extendLending(LendingDTO lendingDTO) throws RemoteException {
+        return library.extendLending(lendingDTO);
+    }
+
+    public void returnLending(LendingDTO lendingDTO) throws RemoteException {
+        library.returnLending(lendingDTO);
+    }
+
+
 
 }
