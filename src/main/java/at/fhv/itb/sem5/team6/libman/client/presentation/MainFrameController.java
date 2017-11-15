@@ -47,9 +47,9 @@ public class MainFrameController {
 
 
     @FXML
-    void openLendings(ActionEvent event) throws IOException {
+    void openCustomerSearch(ActionEvent event) throws IOException {
         splitPaneRight.getChildren().clear();
-        FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/Lending.fxml"));
+        FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/CustomerSearch.fxml"));
         Parent parent = loader.load();
         splitPaneRight.getChildren().add(parent);
     }
