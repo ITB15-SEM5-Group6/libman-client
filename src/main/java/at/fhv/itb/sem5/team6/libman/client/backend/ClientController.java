@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.backend;
 
 
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
@@ -41,4 +42,8 @@ public class ClientController {
     public List<MediaDTO> findAllMedia(String text, Genre genre, MediaType type, Availability availability) throws RemoteException {
         return library.findAllMedia(text, genre, type, availability);
     }
+
+    /*public List<LendingDTO> findAllLending(){
+        return library.findAllLending();
+    }*/
 }

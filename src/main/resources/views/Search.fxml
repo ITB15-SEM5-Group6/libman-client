@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="anchorPane" prefHeight="623.0" prefWidth="953.0"
-            AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-            AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.111"
-            fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.SearchController">
+
+<AnchorPane fx:id="anchorPane" prefHeight="623.0" prefWidth="953.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.SearchController">
    <children>
             <GridPane fx:id="gridPane" prefHeight="620.0" prefWidth="950.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
@@ -22,11 +28,6 @@
                 <RowConstraints percentHeight="70.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Label fx:id="headerLabel" text="Search" GridPane.columnIndex="1">
-                     <font>
-                        <Font size="40.0" />
-                     </font>
-                  </Label>
                   <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <columnConstraints>
                       <ColumnConstraints hgrow="ALWAYS" />
@@ -36,12 +37,16 @@
                       <RowConstraints vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                         <TextField fx:id="searchTextField"/>
+                         <TextField fx:id="searchTextField" />
                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" />
+                        <Label fx:id="headerLabel" text="Search" GridPane.columnIndex="1">
+                           <font>
+                              <Font size="40.0" />
+                           </font>
+                        </Label>
                      </children>
                   </GridPane>
-                   <TableView fx:id="tableView" onMouseClicked="#clickItem" GridPane.columnIndex="1"
-                              GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
+                   <TableView fx:id="tableView" onMouseClicked="#clickItem" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="columnTitle" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Titel" />
                       <TableColumn fx:id="columnMediatype" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Mediatype" />
