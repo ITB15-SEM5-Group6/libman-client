@@ -83,18 +83,20 @@ public class SearchController {
     }
 
     @FXML
-    void search(ActionEvent event) throws RemoteException {
-        tableView.getItems().clear();
-        String searchText = searchTextField.getText();
-        ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
-        List<MediaDTO> allMedia = new LinkedList<>();
+    void search(ActionEvent event) {
+        try {
+            tableView.getItems().clear();
+            String searchText = searchTextField.getText();
+            ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
 
-        allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
-
-        for (MediaDTO media : allMedia) {
-            mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), " ", media));
+            List<MediaDTO> allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
+            for (MediaDTO media : allMedia) {
+                mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), " ", media));
+            }
+            tableView.setItems(mediaEntries);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
         }
-        tableView.setItems(mediaEntries);
     }
 
     @FXML
@@ -107,7 +109,7 @@ public class SearchController {
                 Scene scene = null;
                 try {
                     scene = new Scene(fxmlLoader.load());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Stage stage = new Stage();

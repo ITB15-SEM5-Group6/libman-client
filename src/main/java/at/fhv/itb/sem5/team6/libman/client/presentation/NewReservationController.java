@@ -46,21 +46,27 @@ public class NewReservationController extends NewController {
     }
 
     @FXML
-    void save(ActionEvent event) throws RemoteException {
-        CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
-        if (customerDTO != null) {
-            if (ClientController.getInstance().reserve(DetailMediaViewController.mediaDTO, customerDTO) != null) {
+    void save(ActionEvent event) {
+        try {
+            String searchText = textFieldSearchCustomer.getText();
+            CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
+            if (customerDTO != null) {
+                ClientController.getInstance().reserve(DetailMediaViewController.mediaDTO, customerDTO);
                 DetailMediaViewController.detailStage.close();
                 MessageHelper.showConfirmationMessage("New Reservation saved!");
-            } else {
-                MessageHelper.showErrorAlertMessage("Reservation could not be saved!");
             }
+        }catch(Exception e) {
+            MessageHelper.showErrorAlertMessage("Reservation could not be saved!");
         }
     }
 
     @FXML
-    void searchCustomer(ActionEvent event) throws RemoteException {
-        String searchText = textFieldSearchCustomer.getText();
-        searchCustomer(searchText, tableView);
+    void searchCustomer(ActionEvent event) {
+        try {
+            String searchText = textFieldSearchCustomer.getText();
+            searchCustomer(searchText, tableView);
+        } catch (Exception e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
     }
 }

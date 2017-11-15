@@ -59,7 +59,7 @@ public class DetailMediaViewController {
     }
 
     @FXML
-    public void initialize() throws RemoteException {
+    public void initialize() {
         initColumns();
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
 
@@ -74,13 +74,22 @@ public class DetailMediaViewController {
 
         lableReleaseDate.setText(mediaDTO.getReleaseDate() != null ? sdf.format(mediaDTO.getReleaseDate()).toString() : " ");
 
-        List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(mediaDTO);
-        if(physicalMedia != null) {
-            ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
-            for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
-                mediaEntries.add(new PhysicalMediaEntry(physicalMedia1.getIndex(), physicalMedia1.getAvailability().toString(), physicalMedia1));
+        loadTableViewWithPhysicalMediaDTOs();
+    }
+
+    public void loadTableViewWithPhysicalMediaDTOs() {
+        try {
+            List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(mediaDTO);
+            if(physicalMedia != null) {
+                ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
+                for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
+                    mediaEntries.add(new PhysicalMediaEntry(physicalMedia1.getIndex(), physicalMedia1.getAvailability().toString(), physicalMedia1));
+                }
+                tableView.setItems(mediaEntries);
             }
-            tableView.setItems(mediaEntries);
+
+        } catch (Exception e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
         }
     }
 
@@ -101,7 +110,6 @@ public class DetailMediaViewController {
         availCol.prefWidthProperty().bind(tableView.widthProperty().divide(2)); // w * 1/2
 
         tableView.getColumns().addAll(indexCol, availCol);
-
     }
 
     @FXML
@@ -112,8 +120,8 @@ public class DetailMediaViewController {
             Scene scene = null;
             try {
                 scene = new Scene(fxmlLoader.load());
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception e) {
+                MessageHelper.showErrorAlertMessage(e.getMessage());
             }
             detailStage = new Stage();
             detailStage.setTitle("New Lending");
