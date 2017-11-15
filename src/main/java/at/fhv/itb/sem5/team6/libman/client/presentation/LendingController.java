@@ -15,6 +15,8 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
+//TODO: Zwei Buttons Reservieren , Verlängern
+//TODO: fiindAllLendings
 
 public class LendingController {
 
@@ -54,7 +56,7 @@ public class LendingController {
                 List<LendingDTO> allLendigns = new LinkedList<>();
 
                 //TODO: findAllLEndings();
-               // allLendigns = ClientController.getInstance().findAllLendings();
+                allLendigns = ClientController.getInstance().findAllLending();
 
                 for (LendingDTO lending : allLendigns) {
                         lendingEntries.add(new LendingEntry( lending.getPhysicalMedia().getMedia().getTitle(), lending.getCustomer().getFirstName(), lending.getCustomer().getLastName(), lending));
