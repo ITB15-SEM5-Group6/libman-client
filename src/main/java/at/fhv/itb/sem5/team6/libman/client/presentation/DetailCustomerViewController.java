@@ -2,6 +2,7 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
+import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -106,22 +107,11 @@ public class DetailCustomerViewController {
     }
 
     private void initTableValues(){
+        initLending();
+        initReservations();
+    }
 
-        tableViewLendings.getItems().clear();
-        ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
-        List<LendingDTO> allLendings = new LinkedList<>();
-
-        try {
-            allLendings = ClientController.getInstance().getAllLendings(customerDTO);
-        } catch (RemoteException e) {
-            MessageHelper.showErrorAlertMessage(e.getMessage());
-        }
-
-        for (LendingDTO lending : allLendings) {
-            lendingEntries.add(new LendingEntry(lending.getPhysicalMedia().getMedia().getTitle(),lending.getPhysicalMedia().getMedia().getType().toString(), lending.getPhysicalMedia().getIndex(),lending.getLendDate().toString(), customerDTO, lending.getPhysicalMedia(), lending));
-        }
-        tableViewLendings.setItems(lendingEntries);
-
+    private void initReservations() {
         tableViewReservation.getItems().clear();
         ObservableList<ReservationEntry> reservationEntries = FXCollections.observableArrayList();
         List<ReservationDTO> allReservations = new LinkedList<>();
@@ -137,7 +127,23 @@ public class DetailCustomerViewController {
         }
 
         tableViewReservation.setItems(reservationEntries);
+    }
 
+    private void initLending() {
+        tableViewLendings.getItems().clear();
+        ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
+        List<LendingDTO> allLendings = new LinkedList<>();
+
+        try {
+            allLendings = ClientController.getInstance().getAllLendings(customerDTO);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
+
+        for (LendingDTO lending : allLendings) {
+            lendingEntries.add(new LendingEntry(lending.getPhysicalMedia().getMedia().getTitle(), lending.getPhysicalMedia().getMedia().getType().toString(), lending.getPhysicalMedia().getIndex(), lending.getLendDate().toString(), customerDTO, lending.getPhysicalMedia(), lending));
+        }
+        tableViewLendings.setItems(lendingEntries);
     }
 
     @FXML
@@ -154,22 +160,21 @@ public class DetailCustomerViewController {
         } else {
             MessageHelper.showErrorAlertMessage("No lending object selected!");
         }
-
     }
 
     @FXML
     void returnLending(ActionEvent event) {
         LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
-        if(lendingDTO != null) {
+        if (lendingDTO != null && lendingDTO.getState().equals(LendingState.LENT)) {
             try {
                 ClientController.getInstance().returnLending(lendingDTO);
             } catch (RemoteException e) {
                 MessageHelper.showConfirmationMessage(e.getMessage());
             }
         } else {
-            MessageHelper.showErrorAlertMessage("No lending object selected!");
+            MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
         }
-
+        initLending();
     }
 
 }
