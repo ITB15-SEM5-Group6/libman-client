@@ -29,7 +29,6 @@ public class ClientGUI {
 
     public void loadMainFrame(Stage primaryStage) throws IOException{
         primaryStage.setTitle("LIBMAN");
-        primaryStage.setResizable(false);
         primaryStage.setMaximized(true);
         primaryStage.setOnCloseRequest(t -> {
             //closeLIBMAN();
@@ -57,9 +56,8 @@ public class ClientGUI {
         scene = new Scene(parent);
         primaryStage.setScene(scene);
         primaryStage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
-        primaryStage.setFullScreen(true);
+        //primaryStage.setFullScreen(true);
         primaryStage.show();
         this.primaryStage = primaryStage;
-
     }
 }

@@ -56,5 +56,4 @@ public class ClientController {
     public ReservationDTO reserve(MediaDTO mediaDTO, CustomerDTO customerDTO) throws RemoteException {
         return library.reserve(mediaDTO, customerDTO);
     }
-
 }
