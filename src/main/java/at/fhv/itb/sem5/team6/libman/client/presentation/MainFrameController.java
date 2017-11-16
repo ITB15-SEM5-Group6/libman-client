@@ -22,18 +22,22 @@ import java.util.List;
 public class MainFrameController {
 
     @FXML
-    private AnchorPane splitPaneLeft;
+    public static AnchorPane splitPaneLeft;
+    @FXML
+    public  AnchorPane  splitPaneRight;
+
+    public  static AnchorPane  splitPaneRightStatic;
     @FXML
     private Button searchButton;
     @FXML
     private Button customerButton;
     @FXML
     private Button lendingButton;
-    @FXML
-    private AnchorPane splitPaneRight;
 
     @FXML
     public void initialize() {
+
+        splitPaneRightStatic = splitPaneRight;
         openSearch();
     }
 
@@ -41,9 +45,9 @@ public class MainFrameController {
     void openSearch() {
         splitPaneRight.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/Search.fxml"));
-        try {
-            Parent parent = loader.load();
-            splitPaneRight.getChildren().add(parent);
+            try {
+                Parent parent = loader.load();
+                splitPaneRight.getChildren().add(parent);
         } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
@@ -68,5 +72,10 @@ public class MainFrameController {
         FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/CustomerSearch.fxml"));
         Parent parent = loader.load();
         splitPaneRight.getChildren().add(parent);
+    }
+
+    public static void setFXMLtoSplitPaneRight(Parent parent) {
+        splitPaneRightStatic.getChildren().clear();
+        splitPaneRightStatic.getChildren().add(parent);
     }
 }
