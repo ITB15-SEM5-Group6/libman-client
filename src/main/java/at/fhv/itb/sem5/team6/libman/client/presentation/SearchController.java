@@ -3,6 +3,7 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.ReservationDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
@@ -20,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Arrays;
@@ -92,10 +94,11 @@ public class SearchController {
 
             List<MediaDTO> allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
             for (MediaDTO media : allMedia) {
-                List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(media);
-                if(physicalMedia != null) {
-                mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), " ", media));
-                }
+                List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().findPhysicalMediasByMedia(media.getId());
+                List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(media.getId());
+
+                String available = (physicalMedia.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? Availability.AVAILABLE.toString(): Availability.NOT_AVAILABLE.toString();
+                mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), available, media));
             }
             tableView.setItems(mediaEntries);
         } catch (RemoteException e) {

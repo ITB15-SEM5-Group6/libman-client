@@ -7,6 +7,7 @@ import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibrary;
 
+import javax.validation.constraints.NotNull;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -39,6 +40,10 @@ public class ClientController {
 
     public List<MediaDTO> findAllMedia(String text, Genre genre, MediaType type, Availability availability) throws RemoteException {
         return library.findMedias(text, genre, type, availability);
+    }
+
+    public List<ReservationDTO> findReservationsByMedia(String mediaId) throws RemoteException {
+        return library.findReservationsByMedia(mediaId);
     }
 
     public List<CustomerDTO> getCustomers(String text) throws RemoteException {
