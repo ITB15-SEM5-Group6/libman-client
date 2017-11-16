@@ -13,7 +13,8 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="623.0" prefWidth="953.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.SearchController">
+
+<AnchorPane fx:id="anchorPane" prefHeight="623.0" prefWidth="953.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.SearchController">
    <children>
             <GridPane fx:id="gridPane" prefHeight="620.0" prefWidth="950.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
@@ -45,10 +46,14 @@
                     </rowConstraints>
                      <children>
                          <TextField fx:id="searchTextField" promptText="Enter a search text..." />
-                        <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" />
+
+
+                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" />
+
                      </children>
                   </GridPane>
-                   <TableView fx:id="tableView" onMouseClicked="#clickItem" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" GridPane.vgrow="ALWAYS">
+
+                   <TableView fx:id="tableView" onMouseClicked="#clickItem" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" GridPane.vgrow="ALWAYS">
                     <columns>
                       <TableColumn fx:id="columnTitle" maxWidth="1.7976931348623157E308" prefWidth="75.0" text="Titel" />
                       <TableColumn fx:id="columnMediatype" maxWidth="1.7976931348623157E308" minWidth="-1.0" prefWidth="-1.0" text="Mediatype" />

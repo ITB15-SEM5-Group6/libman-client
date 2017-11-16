@@ -1,7 +1,13 @@
 package at.fhv.itb.sem5.team6.libman.client.backend;
 
 
+
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
+
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
@@ -60,5 +66,21 @@ public class ClientController {
 
     public ReservationDTO reserve(String mediaId, String customerId) throws RemoteException {
         return library.reserve(mediaId, customerId);
+    }
+
+    public List<LendingDTO> getAllLendings(String customerId) throws RemoteException {
+        return library.findLendingsByCustomer(customerId);
+    }
+
+    public List<ReservationDTO> getAllReservations(String customerId) throws RemoteException{
+        return  library.findReservationsByCustomer(customerId);
+    }
+
+    public LendingDTO extendLending(String lendingId) throws RemoteException {
+        return library.extendLending(lendingId);
+    }
+
+    public void returnLending(String lendingId) throws RemoteException {
+        library.returnLending(lendingId);
     }
 }
