@@ -51,7 +51,7 @@ public class NewReservationController extends NewController {
             String searchText = textFieldSearchCustomer.getText();
             CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
             if (customerDTO != null) {
-                ClientController.getInstance().reserve(DetailMediaViewController.mediaDTO, customerDTO);
+                ClientController.getInstance().reserve(DetailMediaViewController.mediaDTO.getId(), customerDTO.getId());
                 DetailMediaViewController.detailStage.close();
                 MessageHelper.showConfirmationMessage("New Reservation saved!");
             }
