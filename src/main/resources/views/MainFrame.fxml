@@ -54,7 +54,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="searchButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openSearch" text="Search Medias" GridPane.rowIndex="1" />
+                        <Button fx:id="searchButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openSearch" text="Search Media" GridPane.rowIndex="1" />
                         <Button fx:id="customerButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openAddCustomer" text="Add Customer" GridPane.rowIndex="2" />
                         <ImageView fx:id="imageViewLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
