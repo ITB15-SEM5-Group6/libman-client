@@ -2,6 +2,7 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 
+import java.lang.reflect.InvocationTargetException;
 import java.rmi.RemoteException;
 
 
@@ -38,7 +40,7 @@ public class NewLendingController extends NewController {
     }
 
     @FXML
-    public void initialize() throws RemoteException {
+    public void initialize() {
         initColumns(tableView);
     }
 
@@ -49,25 +51,28 @@ public class NewLendingController extends NewController {
     }
 
     @FXML
-    void save(ActionEvent event) throws RemoteException {
+    void save(ActionEvent event) {
         CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
 
         if(customerDTO != null) {
-            if(ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO) != null ) {
+            try {
+                LendingDTO lending = ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia().getId(), customerDTO.getId());
                 DetailMediaViewController.detailStage.close();
                 MessageHelper.showConfirmationMessage("New Lending saved!");
-            } else {
-                MessageHelper.showErrorAlertMessage("Lending could not be saved!");
+                //DetailMediaViewController.loadTableViewWithPhysicalMediaDTOs();
+            } catch (Exception e) {
+                MessageHelper.showErrorAlertMessage(e.getMessage());
             }
-
         }
     }
 
     @FXML
-    void searchCustomer(ActionEvent event) throws RemoteException {
-        String searchText = textFieldSearchCustomer.getText();
-        searchCustomer(searchText, tableView);
-
+    void searchCustomer(ActionEvent event){
+        try {
+            String searchText = textFieldSearchCustomer.getText();
+            searchCustomer(searchText, tableView);
+        } catch (Exception e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
     }
-
 }

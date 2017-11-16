@@ -13,6 +13,7 @@ import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibrary;
 
+import javax.validation.constraints.NotNull;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -35,8 +36,8 @@ public class ClientController {
         ClientController.library = library;
     }
 
-    public List<PhysicalMediaDTO> getPhysicalMedia(MediaDTO media) throws RemoteException {
-        return library.findPhysicalMedias(media);
+    public List<PhysicalMediaDTO> findPhysicalMediasByMedia(String id) throws RemoteException {
+        return library.findPhysicalMediasByMedia(id);
     }
 
     public List<PhysicalMediaDTO> findAllPhysicalMedia() throws RemoteException {
@@ -47,6 +48,10 @@ public class ClientController {
         return library.findMedias(text, genre, type, availability);
     }
 
+    public List<ReservationDTO> findReservationsByMedia(String mediaId) throws RemoteException {
+        return library.findReservationsByMedia(mediaId);
+    }
+
     public List<CustomerDTO> getCustomers(String text) throws RemoteException {
         return library.findCustomers(text);
     }
@@ -55,12 +60,12 @@ public class ClientController {
         return library.findCustomers();
     }
 
-    public LendingDTO lendPhysicalMedia(PhysicalMediaDTO physicalMediaDTO, CustomerDTO customerDTO) throws RemoteException {
-        return library.lend(physicalMediaDTO, customerDTO);
+    public LendingDTO lendPhysicalMedia(String physicalMediaId, String customerId) throws RemoteException {
+        return library.lend(physicalMediaId, customerId);
     }
 
-    public ReservationDTO reserve(MediaDTO mediaDTO, CustomerDTO customerDTO) throws RemoteException {
-        return library.reserve(mediaDTO, customerDTO);
+    public ReservationDTO reserve(String mediaId, String customerId) throws RemoteException {
+        return library.reserve(mediaId, customerId);
     }
 
     public List<LendingDTO> getAllLendings(CustomerDTO customerDTO) throws RemoteException {

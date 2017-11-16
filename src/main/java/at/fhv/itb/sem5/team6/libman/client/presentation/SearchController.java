@@ -2,6 +2,8 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.ReservationDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
@@ -19,6 +21,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.Arrays;
@@ -83,18 +86,24 @@ public class SearchController {
     }
 
     @FXML
-    void search(ActionEvent event) throws RemoteException {
-        tableView.getItems().clear();
-        String searchText = searchTextField.getText();
-        ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
-        List<MediaDTO> allMedia = new LinkedList<>();
+    void search(ActionEvent event) {
+        try {
+            tableView.getItems().clear();
+            String searchText = searchTextField.getText();
+            ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
 
-        allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
+            List<MediaDTO> allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
+            for (MediaDTO media : allMedia) {
+                List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().findPhysicalMediasByMedia(media.getId());
+                List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(media.getId());
 
-        for (MediaDTO media : allMedia) {
-            mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), " ", media));
+                String available = (physicalMedia.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? Availability.AVAILABLE.toString(): Availability.NOT_AVAILABLE.toString();
+                mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), available, media));
+            }
+            tableView.setItems(mediaEntries);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
         }
-        tableView.setItems(mediaEntries);
     }
 
     @FXML
@@ -107,7 +116,7 @@ public class SearchController {
                 Scene scene = null;
                 try {
                     scene = new Scene(fxmlLoader.load());
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Stage stage = new Stage();
