@@ -29,8 +29,8 @@ public class ClientController {
         ClientController.library = library;
     }
 
-    public List<PhysicalMediaDTO> getPhysicalMedia(MediaDTO media) throws RemoteException {
-        return library.findPhysicalMedias(media);
+    public List<PhysicalMediaDTO> findPhysicalMediasByMedia(String id) throws RemoteException {
+        return library.findPhysicalMediasByMedia(id);
     }
 
     public List<PhysicalMediaDTO> findAllPhysicalMedia() throws RemoteException {
@@ -49,12 +49,12 @@ public class ClientController {
         return library.findCustomers();
     }
 
-    public LendingDTO lendPhysicalMedia(PhysicalMediaDTO physicalMediaDTO, CustomerDTO customerDTO) throws RemoteException {
-        return library.lend(physicalMediaDTO, customerDTO);
+    public LendingDTO lendPhysicalMedia(String physicalMediaId, String customerId) throws RemoteException {
+        return library.lend(physicalMediaId, customerId);
     }
 
-    public ReservationDTO reserve(MediaDTO mediaDTO, CustomerDTO customerDTO) throws RemoteException {
-        return library.reserve(mediaDTO, customerDTO);
+    public ReservationDTO reserve(String mediaId, String customerId) throws RemoteException {
+        return library.reserve(mediaId, customerId);
     }
 
 }

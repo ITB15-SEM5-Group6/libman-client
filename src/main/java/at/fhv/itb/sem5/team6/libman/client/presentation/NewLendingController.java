@@ -56,7 +56,7 @@ public class NewLendingController extends NewController {
 
         if(customerDTO != null) {
             try {
-                LendingDTO lending = ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia(), customerDTO);
+                LendingDTO lending = ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia().getId(), customerDTO.getId());
                 DetailMediaViewController.detailStage.close();
                 MessageHelper.showConfirmationMessage("New Lending saved!");
                 //DetailMediaViewController.loadTableViewWithPhysicalMediaDTOs();

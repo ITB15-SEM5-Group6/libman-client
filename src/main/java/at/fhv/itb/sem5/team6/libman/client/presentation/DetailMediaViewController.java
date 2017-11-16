@@ -18,8 +18,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -79,7 +77,7 @@ public class DetailMediaViewController {
 
     public void loadTableViewWithPhysicalMediaDTOs() {
         try {
-            List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().getPhysicalMedia(mediaDTO);
+            List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().findPhysicalMediasByMedia(mediaDTO.getId());
             if(physicalMedia != null) {
                 ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
                 for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {
