@@ -28,6 +28,8 @@ public class MainFrameController {
     @FXML
     private Button customerButton;
     @FXML
+    private Button lendingButton;
+    @FXML
     private AnchorPane splitPaneRight;
 
 
@@ -55,5 +57,12 @@ public class MainFrameController {
         } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
+    }
+    @FXML
+    void openCustomerSearch(ActionEvent event) throws IOException {
+        splitPaneRight.getChildren().clear();
+        FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/CustomerSearch.fxml"));
+        Parent parent = loader.load();
+        splitPaneRight.getChildren().add(parent);
     }
 }
