@@ -44,19 +44,35 @@ public class CustomerSearchController {
     private TableView<CustomerSearchEntry> tableView;
 
     @FXML
-    private TableColumn<CustomerSearchEntry, String > columnName;
+    private TableColumn<CustomerSearchEntry, String> columnName;
 
     @FXML
-    private TableColumn<CustomerSearchEntry, String > columnSurname;
+    private TableColumn<CustomerSearchEntry, String> columnSurname;
+
+    @FXML
+    private TableColumn<CustomerSearchEntry, String> columnAddress;
+
+    @FXML
+    private TableColumn<CustomerSearchEntry, String> columnPhone;
+
+    @FXML
+    private TableColumn<CustomerSearchEntry, String> columnEmail;
+
 
 
     @FXML
     public void initialize() {
-        columnName.prefWidthProperty().bind(tableView.widthProperty().divide(2)); // w * 1/2
-        columnSurname.prefWidthProperty().bind(tableView.widthProperty().divide(2)); // w * 1/2
+        columnName.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        columnSurname.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        columnAddress.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        columnPhone.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        columnEmail.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
 
         columnName.setCellValueFactory(new PropertyValueFactory<CustomerSearchEntry, String>("customerName"));
         columnSurname.setCellValueFactory(new PropertyValueFactory<CustomerSearchEntry, String>("customerSurname"));
+        columnAddress.setCellValueFactory(new PropertyValueFactory<CustomerSearchEntry, String>("customerAddress"));
+        columnPhone.setCellValueFactory(new PropertyValueFactory<CustomerSearchEntry, String>("customerPhone"));
+        columnEmail.setCellValueFactory(new PropertyValueFactory<CustomerSearchEntry, String>("customerEmail"));
     }
 
     @FXML
@@ -73,7 +89,7 @@ public class CustomerSearchController {
         }
 
         for (CustomerDTO customer : allCustomers) {
-            customerSearchEntries.add(new CustomerSearchEntry(customer.getLastName(), customer.getFirstName(), customer));
+            customerSearchEntries.add(new CustomerSearchEntry(customer));
         }
         tableView.setItems(customerSearchEntries);
     }

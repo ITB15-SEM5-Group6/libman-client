@@ -32,9 +32,13 @@ public class MainFrameController {
     @FXML
     private AnchorPane splitPaneRight;
 
+    @FXML
+    public void initialize() {
+        openSearch();
+    }
 
     @FXML
-    void openSearch(ActionEvent event) {
+    void openSearch() {
         splitPaneRight.getChildren().clear();
         FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/Search.fxml"));
         try {
@@ -44,7 +48,6 @@ public class MainFrameController {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
     }
-
 
     @FXML
     void openAddCustomer(ActionEvent event) {
@@ -58,6 +61,7 @@ public class MainFrameController {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
     }
+
     @FXML
     void openCustomerSearch(ActionEvent event) throws IOException {
         splitPaneRight.getChildren().clear();

@@ -99,8 +99,8 @@
                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                        </rowConstraints>
                        <children>
-                           <Button fx:id="buttonReserve" mnemonicParsing="false" onAction="#reserve" prefHeight="38.0" prefWidth="136.0" text="Reserve" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
-                           <Button fx:id="buttonLend" mnemonicParsing="false" onAction="#lend" prefHeight="38.0" prefWidth="136.0" text="Lend" GridPane.columnIndex="1" />
+                           <Button fx:id="buttonReserve" disable="true" mnemonicParsing="false" onAction="#reserve" prefHeight="38.0" prefWidth="136.0" text="Reserve" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
+                           <Button fx:id="buttonLend" disable="true" mnemonicParsing="false" onAction="#lend" prefHeight="38.0" prefWidth="136.0" text="Lend" GridPane.columnIndex="1" />
                        </children>
                    </GridPane>
                </children>

@@ -30,15 +30,14 @@ public class ClientGUI {
     }
 
     public void loadGUI(Stage primaryStage) throws IOException{
-
         primaryStage.setTitle("LIBMAN");
         primaryStage.setResizable(false);
         primaryStage.setMaximized(true);
 
-
         primaryStage.setOnCloseRequest(t -> {
             //closeLIBMAN();
         });
+
         FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/MainFrame.fxml"));
         Parent parent = loader.load();
         scene = new Scene(parent);
@@ -46,6 +45,5 @@ public class ClientGUI {
         primaryStage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
         primaryStage.show();
         this.primaryStage = primaryStage;
-
     }
 }

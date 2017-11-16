@@ -3,6 +3,7 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.ReservationDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +19,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -72,12 +74,29 @@ public class DetailMediaViewController {
 
         lableReleaseDate.setText(mediaDTO.getReleaseDate() != null ? sdf.format(mediaDTO.getReleaseDate()).toString() : " ");
 
-        loadTableViewWithPhysicalMediaDTOs();
-    }
-
-    public void loadTableViewWithPhysicalMediaDTOs() {
         try {
             List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().findPhysicalMediasByMedia(mediaDTO.getId());
+            isReservationAndLendingPossible(physicalMedia);
+            loadTableViewWithPhysicalMediaDTOs(physicalMedia);
+        } catch (Exception e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
+    }
+
+    private void isReservationAndLendingPossible(List<PhysicalMediaDTO> physicalMedia) {
+        try {
+            List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(mediaDTO.getId());
+            boolean available = (physicalMedia.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? true : false;
+            if(available) {
+                buttonReserve.setDisable(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadTableViewWithPhysicalMediaDTOs(List<PhysicalMediaDTO> physicalMedia) {
+        try {
             if(physicalMedia != null) {
                 ObservableList<PhysicalMediaEntry> mediaEntries = FXCollections.observableArrayList();
                 for (PhysicalMediaDTO physicalMedia1 : physicalMedia) {

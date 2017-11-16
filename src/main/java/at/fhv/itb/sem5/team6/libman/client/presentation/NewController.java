@@ -58,6 +58,4 @@ public abstract class NewController {
 
         tableView.getColumns().addAll(firstnameCol, lastnameCol, emailCol, phoneCol, addressCol);
     }
-
-
 }

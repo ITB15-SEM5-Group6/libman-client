@@ -18,6 +18,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -122,6 +123,7 @@ public class SearchController {
                 Stage stage = new Stage();
                 stage.setTitle("Detail View");
                 stage.setScene(scene);
+                stage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
                 DetailMediaViewController.detailStage = stage;
                 stage.show();
             }
