@@ -49,15 +49,16 @@
                     <PasswordField fx:id="password" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                     <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                         <columnConstraints>
-                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="105.0" minWidth="10.0" prefWidth="105.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="140.0" minWidth="10.0" prefWidth="110.0" />
                             <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                         </columnConstraints>
                         <rowConstraints>
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                         </rowConstraints>
                         <children>
-                            <Button fx:id="btnLogin" disable="true" mnemonicParsing="false" prefWidth="80.0" text="Login" GridPane.columnIndex="2" />
+                            <Button fx:id="btnLogin" disable="true" mnemonicParsing="false" onAction="#login" prefWidth="80.0" text="Login" GridPane.columnIndex="2" />
+                        <Button fx:id="btnGuest" defaultButton="true" mnemonicParsing="false" onAction="#continueAsGuest" text="Continue as guest" GridPane.columnIndex="1" />
                         </children>
                     </GridPane>
                 </children>

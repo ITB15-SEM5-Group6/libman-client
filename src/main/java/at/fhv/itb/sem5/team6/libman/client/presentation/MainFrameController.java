@@ -33,7 +33,6 @@ public class MainFrameController {
     @FXML
     private VBox vBoxMain;
 
-
     @FXML
     void openSearch(ActionEvent event) {
         splitPaneRight.getChildren().clear();
@@ -76,3 +75,4 @@ public class MainFrameController {
         splitPaneRight.getChildren().add(parent);
     }
 }
+
