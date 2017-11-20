@@ -1,20 +1,15 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
-import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
-import java.util.List;
 
 /**
  * Created by Christina on 02.11.2017.
@@ -31,6 +26,12 @@ public class MainFrameController {
     private Button lendingButton;
     @FXML
     private AnchorPane splitPaneRight;
+    @FXML
+    private MenuItem menuLogOut;
+    @FXML
+    private MenuItem menuChangeUser;
+    @FXML
+    private VBox vBoxMain;
 
 
     @FXML
@@ -45,6 +46,15 @@ public class MainFrameController {
         }
     }
 
+    @FXML
+    void changeUser(ActionEvent event) {
+
+    }
+
+    @FXML
+    void logout(ActionEvent event) {
+
+    }
 
     @FXML
     void openAddCustomer(ActionEvent event) {
