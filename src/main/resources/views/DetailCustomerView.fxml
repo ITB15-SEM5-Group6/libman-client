@@ -132,6 +132,7 @@
                               <TableColumn fx:id="LendingMediaTypeColumn" prefWidth="78.0" text="Media Type" />
                               <TableColumn fx:id="LendingLendDateColumn" prefWidth="87.0" text="Lend Date" />
                               <TableColumn fx:id="LendingIndexColumn" prefWidth="63.0" text="Index" />
+                        <TableColumn fx:id="RemoveLendingColumn" prefWidth="63.0" />
                            </columns>
                         </TableView>
                         <TableView fx:id="tableViewReservation" GridPane.columnIndex="2" GridPane.rowIndex="1">

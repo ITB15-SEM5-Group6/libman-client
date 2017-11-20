@@ -3,6 +3,8 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
 import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
@@ -72,6 +75,9 @@ public class DetailCustomerViewController {
     @FXML
     private TableColumn<ReservationEntry, String> ReservationDateColumn;
 
+    @FXML
+    TableColumn<ReservationEntry, Boolean> RemoveLendingColumn = new TableColumn<>();
+
     public void initialize() throws RemoteException {
         initColumns();
         customerDTO = CustomerSearchController.getSelectedCustomer();
@@ -82,29 +88,28 @@ public class DetailCustomerViewController {
         lableIban.setText(customerDTO.getIban());
         lableBIC.setText(customerDTO.getBic());
 
-        initTableValues();
+        RemoveLendingColumn.setSortable(false);
 
+        initTableValues();
     }
 
     private void initColumns(){
 
-        lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(4));
-        LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(4));
-        LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(4));
-        LendingLendDateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(4));
+        lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
+        LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
+        LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
+        LendingLendDateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
+        RemoveLendingColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
 
         lendingTitleColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("title"));
         LendingLendDateColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("lendingDate"));
         LendingIndexColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("index"));
         LendingMediaTypeColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("mediaType"));
 
-
         ReservationDateColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
         ReservationTitleColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
-
         ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("media"));
         ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("date"));
-
     }
 
     private void initTableValues(){
