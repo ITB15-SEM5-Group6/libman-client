@@ -36,7 +36,6 @@ public class MainFrameController {
 
     @FXML
     public void initialize() {
-
         splitPaneRightStatic = splitPaneRight;
         openSearch();
     }

@@ -43,7 +43,7 @@
                       <RowConstraints vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                         <TextField fx:id="searchTextField" promptText="Enter a search text..." />
+                         <TextField fx:id="searchTextField" onKeyPressed="#handleEnterPressed" promptText="Enter a search text..." />
 
 
                          <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />

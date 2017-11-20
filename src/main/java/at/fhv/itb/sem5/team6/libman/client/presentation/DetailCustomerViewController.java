@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.rmi.RemoteException;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -130,6 +131,8 @@ public class DetailCustomerViewController {
     }
 
     private void initLending() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
         tableViewLendings.getItems().clear();
         ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
         List<LendingDTO> allLendings = new LinkedList<>();
@@ -141,7 +144,7 @@ public class DetailCustomerViewController {
         }
 
         for (LendingDTO lending : allLendings) {
-            lendingEntries.add(new LendingEntry(lending.getPhysicalMedia().getMedia().getTitle(), lending.getPhysicalMedia().getMedia().getType().toString(), lending.getPhysicalMedia().getIndex(), lending.getLendDate().toString(), customerDTO, lending.getPhysicalMedia(), lending));
+            lendingEntries.add(new LendingEntry(lending.getPhysicalMedia().getMedia().getTitle(), lending.getPhysicalMedia().getMedia().getType().toString(), lending.getPhysicalMedia().getIndex(), sdf.format(lending.getLendDate()), customerDTO, lending.getPhysicalMedia(), lending));
         }
         tableViewLendings.setItems(lendingEntries);
     }

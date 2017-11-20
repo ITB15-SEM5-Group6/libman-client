@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -59,8 +61,6 @@ public class CustomerSearchController {
     @FXML
     private TableColumn<CustomerSearchEntry, String> columnEmail;
 
-
-
     @FXML
     public void initialize() {
         columnName.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
@@ -77,7 +77,14 @@ public class CustomerSearchController {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void handleEnterPressed(KeyEvent event) {
+        if(event.getCode().equals(KeyCode.ENTER)) {
+            search();
+        }
+    }
+
+    @FXML
+    void search() {
         tableView.getItems().clear();
         String searchText = searchField.getText();
         ObservableList<CustomerSearchEntry> customerSearchEntries = FXCollections.observableArrayList();
