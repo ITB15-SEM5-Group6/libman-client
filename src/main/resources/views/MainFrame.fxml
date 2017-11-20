@@ -8,7 +8,7 @@
       minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111"
       fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.MainFrameController">
    <children>
-      <MenuBar prefWidth="707.0">
+       <MenuBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="298.0">
         <menus>
             <Menu mnemonicParsing="false" text="Options">
             <items>
