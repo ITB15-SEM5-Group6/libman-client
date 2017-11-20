@@ -13,7 +13,6 @@ import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibrary;
 
-import javax.validation.constraints.NotNull;
 import java.rmi.RemoteException;
 import java.util.List;
 

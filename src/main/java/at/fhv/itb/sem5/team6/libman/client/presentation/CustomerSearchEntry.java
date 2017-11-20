@@ -8,11 +8,19 @@ public class CustomerSearchEntry {
 
     private SimpleStringProperty customerName;
     private SimpleStringProperty customerSurname;
+    private SimpleStringProperty customerAddress;
+    private SimpleStringProperty customerPhone;
+    private SimpleStringProperty customerEmail;
+
     private CustomerDTO customerDTO;
 
-    public CustomerSearchEntry(String customerName, String customerSurname, CustomerDTO customerDTO) {
-        this.customerName = new SimpleStringProperty(customerName);
-        this.customerSurname = new SimpleStringProperty(customerSurname);
+    public CustomerSearchEntry(CustomerDTO customerDTO) {
+        this.customerName = new SimpleStringProperty(customerDTO.getLastName());
+        this.customerSurname = new SimpleStringProperty(customerDTO.getFirstName());
+        this.customerAddress = new SimpleStringProperty(customerDTO.getAddress());
+        this.customerPhone = new SimpleStringProperty(customerDTO.getPhoneNumber());
+        this.customerEmail = new SimpleStringProperty(customerDTO.getEmail());
+
         this.customerDTO = customerDTO;
     }
 
@@ -34,4 +42,31 @@ public class CustomerSearchEntry {
 
     public CustomerDTO getCustomerDTO(){return customerDTO;}
 
+    public SimpleStringProperty customerSurnameProperty() {
+        return customerSurname;
+    }
+
+    public String getCustomerAddress() {
+        return customerAddress.get();
+    }
+
+    public SimpleStringProperty customerAddressProperty() {
+        return customerAddress;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone.get();
+    }
+
+    public SimpleStringProperty customerPhoneProperty() {
+        return customerPhone;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail.get();
+    }
+
+    public SimpleStringProperty customerEmailProperty() {
+        return customerEmail;
+    }
 }

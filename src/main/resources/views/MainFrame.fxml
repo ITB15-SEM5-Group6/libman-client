@@ -38,14 +38,14 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="searchButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openSearch" text="Search Media" GridPane.rowIndex="1" />
-                        <Button fx:id="customerButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openAddCustomer" text="Add Customer" GridPane.rowIndex="2" />
+                        <Button fx:id="searchButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openSearch" text="Media Search" GridPane.rowIndex="1" />
+                        <Button fx:id="customerButton" visible="false" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openAddCustomer" text="Add Customer" GridPane.rowIndex="3" />
                         <ImageView fx:id="imageViewLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/logo_libman.png" />
                            </image>
                         </ImageView>
-                        <Button fx:id="buttonCustomerSearch" layoutX="23.0" layoutY="90.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openCustomerSearch" text="Customer Search" GridPane.rowIndex="3" />
+                        <Button fx:id="buttonCustomerSearch" layoutX="23.0" layoutY="90.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openCustomerSearch" text="Customer Search" GridPane.rowIndex="2" />
                      </children>
                   </GridPane>
                </children></AnchorPane>

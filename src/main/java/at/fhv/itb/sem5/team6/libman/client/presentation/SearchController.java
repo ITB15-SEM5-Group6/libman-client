@@ -18,6 +18,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
@@ -60,6 +63,13 @@ public class SearchController {
         showFirstEntry();
     }
 
+    @FXML
+    void handleEnterPressed(KeyEvent event) {
+        if(event.getCode().equals(KeyCode.ENTER)) {
+            search();
+        }
+    }
+
     private void initFilterOptions() {
         Collection<MediaType> mediaTyps = Arrays.asList(MediaType.values());
         Collection<Availability> availabilities = Arrays.asList(Availability.values());
@@ -86,7 +96,7 @@ public class SearchController {
     }
 
     @FXML
-    void search(ActionEvent event) {
+    void search() {
         try {
             tableView.getItems().clear();
             String searchText = searchTextField.getText();
@@ -116,12 +126,14 @@ public class SearchController {
                 Scene scene = null;
                 try {
                     scene = new Scene(fxmlLoader.load());
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 Stage stage = new Stage();
                 stage.setTitle("Detail View");
                 stage.setScene(scene);
+                stage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
                 DetailMediaViewController.detailStage = stage;
                 stage.show();
             }

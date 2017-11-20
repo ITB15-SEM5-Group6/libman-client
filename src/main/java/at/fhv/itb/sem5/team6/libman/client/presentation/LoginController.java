@@ -55,7 +55,6 @@ public class LoginController {
 
     @FXML
     void login() {
-
     }
 
     //handles the Enter-Key-Button for faster login.

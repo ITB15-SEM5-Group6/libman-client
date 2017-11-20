@@ -4,6 +4,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -27,9 +28,11 @@ public class ClientGUI {
         this.primaryStage = primaryStage;
     }
 
-    public void loadMainFrame(Stage primaryStage) throws IOException{
+
+    public void loadGUI(Stage primaryStage) throws IOException{
         primaryStage.setTitle("LIBMAN");
         primaryStage.setMaximized(true);
+
         primaryStage.setOnCloseRequest(t -> {
             //closeLIBMAN();
         });
@@ -41,7 +44,6 @@ public class ClientGUI {
         primaryStage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
         primaryStage.show();
         this.primaryStage = primaryStage;
-
     }
 
     public void loadSearchForGuest(Stage primaryStage) throws IOException{

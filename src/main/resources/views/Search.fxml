@@ -13,8 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="anchorPane" prefHeight="623.0" prefWidth="953.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.SearchController">
+<AnchorPane fx:id="anchorPane" prefHeight="623.0" prefWidth="953.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.SearchController">
    <children>
             <GridPane fx:id="gridPane" prefHeight="520.0" prefWidth="960.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
@@ -24,14 +23,13 @@
               </columnConstraints>
               <rowConstraints>
                   <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
-                  <RowConstraints percentHeight="10.0" vgrow="ALWAYS" />
-                <RowConstraints maxHeight="116.0" minHeight="63.0" percentHeight="10.0" prefHeight="116.0" vgrow="ALWAYS" />
-            <RowConstraints maxHeight="53.0" minHeight="0.0" percentHeight="5.0" prefHeight="0.0" vgrow="ALWAYS" />
-                <RowConstraints percentHeight="70.0" vgrow="ALWAYS" />
-            <RowConstraints minHeight="10.0" percentHeight="5.0" prefHeight="30.0" vgrow="ALWAYS" />
+                  <RowConstraints percentHeight="5.0" vgrow="ALWAYS" />
+                <RowConstraints maxHeight="116.0" minHeight="63.0" percentHeight="15.0" prefHeight="116.0" vgrow="ALWAYS" />
+            <RowConstraints percentHeight="70.0" vgrow="ALWAYS" />
+            <RowConstraints maxHeight="26.0" minHeight="0.0" percentHeight="10.0" prefHeight="0.0" vgrow="ALWAYS" />
               </rowConstraints>
                <children>
-                  <Label fx:id="headerLabel" text="Search Media" GridPane.columnIndex="1">
+                  <Label fx:id="headerLabel" text="Media Search" GridPane.columnIndex="1">
                      <font>
                         <Font size="40.0" />
                      </font>
@@ -45,10 +43,10 @@
                       <RowConstraints vgrow="ALWAYS" />
                     </rowConstraints>
                      <children>
-                         <TextField fx:id="searchTextField" promptText="Enter a search text..." />
+                         <TextField fx:id="searchTextField" onKeyPressed="#handleEnterPressed" promptText="Enter a search text..." />
 
 
-                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" />
+                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" text="Search" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
 
                      </children>
                   </GridPane>
@@ -71,6 +69,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
                         <ComboBox fx:id="comboMediatype" prefWidth="150.0" GridPane.halignment="LEFT" GridPane.rowIndex="2" />
