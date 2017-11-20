@@ -17,7 +17,6 @@ import java.util.List;
  */
 public abstract class NewController {
 
-
     public void searchCustomer(String searchText, TableView tableView) throws RemoteException {
 
         ObservableList<CustomerEntry> customerEntries = FXCollections.observableArrayList();
@@ -34,27 +33,26 @@ public abstract class NewController {
         tableView.setItems(customerEntries);
     }
 
-
     public void initColumns(TableView tableView) {
         TableColumn<CustomerEntry, String> firstnameCol = new TableColumn("Firstname");
         firstnameCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        firstnameCol.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        firstnameCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
 
         TableColumn<CustomerEntry, String> lastnameCol = new TableColumn("Lastname");
         lastnameCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        lastnameCol.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        lastnameCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
 
         TableColumn<CustomerEntry, String> emailCol = new TableColumn("E-Mail");
         emailCol.setCellValueFactory(new PropertyValueFactory<>("email"));
-        emailCol.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        emailCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
 
         TableColumn<CustomerEntry, String> phoneCol = new TableColumn("Phone");
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phoneNumber"));
-        phoneCol.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        phoneCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
 
         TableColumn<CustomerEntry, String> addressCol = new TableColumn("Address");
         addressCol.setCellValueFactory(new PropertyValueFactory<>("address"));
-        addressCol.prefWidthProperty().bind(tableView.widthProperty().divide(5)); // w * 1/2
+        addressCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
 
         tableView.getColumns().addAll(firstnameCol, lastnameCol, emailCol, phoneCol, addressCol);
     }

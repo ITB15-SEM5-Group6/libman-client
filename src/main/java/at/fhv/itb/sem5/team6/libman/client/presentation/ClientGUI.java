@@ -34,7 +34,6 @@ public class ClientGUI {
         primaryStage.setTitle("LIBMAN");
         primaryStage.setResizable(false);
         primaryStage.setMaximized(true);
-
         primaryStage.setOnCloseRequest(t -> {
             //closeLIBMAN();
         });

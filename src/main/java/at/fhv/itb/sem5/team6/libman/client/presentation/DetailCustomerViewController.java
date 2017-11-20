@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButtons.RemoveLendingCell;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
 import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -8,16 +9,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 import java.rmi.RemoteException;
-import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,11 +74,16 @@ public class DetailCustomerViewController {
     private TableColumn<ReservationEntry, String> ReservationDateColumn;
 
     @FXML
-    TableColumn<ReservationEntry, Boolean> RemoveLendingColumn = new TableColumn<>();
+    private TableColumn<LendingEntry, String> LendingStateColumn;
+
+    @FXML
+    TableColumn<LendingEntry, Boolean> RemoveLendingColumn = new TableColumn<LendingEntry, Boolean>();
 
     public void initialize() throws RemoteException {
         initColumns();
+
         customerDTO = CustomerSearchController.getSelectedCustomer();
+
         customerLabel.setText(customerDTO.getFirstName() + " " + customerDTO.getLastName());
         labelAdress.setText(customerDTO.getAddress());
         labelEMail.setText(customerDTO.getEmail());
@@ -88,33 +91,91 @@ public class DetailCustomerViewController {
         lableIban.setText(customerDTO.getIban());
         lableBIC.setText(customerDTO.getBic());
 
-        RemoveLendingColumn.setSortable(false);
-
         initTableValues();
     }
 
     private void initColumns(){
 
-        lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
-        LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
-        LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
-        LendingLendDateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
-        RemoveLendingColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(5));
+        lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
+        LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
+        LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
+        LendingLendDateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
+        LendingStateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
+        RemoveLendingColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
 
         lendingTitleColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("title"));
-        LendingLendDateColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("lendingDate"));
-        LendingIndexColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("index"));
         LendingMediaTypeColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("mediaType"));
+        LendingIndexColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("index"));
+        LendingLendDateColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("lendingDate"));
+        LendingStateColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("lendingState"));
+
+        // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
+        RemoveLendingColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LendingEntry, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LendingEntry, Boolean> features) {
+                return new SimpleBooleanProperty(features.getValue() != null);
+            }
+        });
+        RemoveLendingColumn.setSortable(false);
 
         ReservationDateColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
+        ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("date"));
         ReservationTitleColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
         ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("media"));
-        ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("date"));
     }
 
     private void initTableValues(){
-        initLending();
+        initLendings();
         initReservations();
+    }
+
+    private void initLendings() {
+        tableViewLendings.getItems().clear();
+
+        ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
+        try {
+            List<LendingDTO> allLendings = ClientController.getInstance().getAllLendings(customerDTO.getId());
+            for (LendingDTO lending : allLendings) {
+                lendingEntries.add(new LendingEntry(
+                        lending.getPhysicalMedia().getMedia().getTitle(),
+                        lending.getPhysicalMedia().getMedia().getType().toString(),
+                        lending.getPhysicalMedia().getIndex(),
+                        lending.getLendDate(),
+                        lending.getState(),
+                        customerDTO,
+                        lending.getPhysicalMedia(),
+                        lending));
+            }
+            tableViewLendings.setItems(lendingEntries);
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
+
+        // create a cell value factory with an add button for each row in the table.
+        RemoveLendingColumn.setCellFactory(new Callback<TableColumn<LendingEntry, Boolean>, TableCell<LendingEntry, Boolean>>() {
+            @Override
+            public TableCell<LendingEntry, Boolean> call(TableColumn<LendingEntry, Boolean> removeLendingBooleanTableColumn) {
+                RemoveLendingCell cell = new RemoveLendingCell();
+
+                cell.getRemoveLendingButton().setOnAction(actionEvent -> {
+                    //is necessary because if you directly click the button without selecting the row first no row is selected
+                    tableViewLendings.getSelectionModel().select(cell.getTableRow().getIndex());
+
+                    LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
+                    if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
+                        try {
+                            ClientController.getInstance().returnLending(lendingDTO.getId());
+                            initLendings();
+                        } catch (RemoteException e) {
+                            MessageHelper.showConfirmationMessage(e.getMessage());
+                        }
+                    } else {
+                        MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
+                    }
+                });
+                return cell;
+            }
+        });
     }
 
     private void initReservations() {
@@ -133,25 +194,6 @@ public class DetailCustomerViewController {
         }
 
         tableViewReservation.setItems(reservationEntries);
-    }
-
-    private void initLending() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
-
-        tableViewLendings.getItems().clear();
-        ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
-        List<LendingDTO> allLendings = new LinkedList<>();
-
-        try {
-            allLendings = ClientController.getInstance().getAllLendings(customerDTO.getId());
-        } catch (RemoteException e) {
-            MessageHelper.showErrorAlertMessage(e.getMessage());
-        }
-
-        for (LendingDTO lending : allLendings) {
-            lendingEntries.add(new LendingEntry(lending.getPhysicalMedia().getMedia().getTitle(), lending.getPhysicalMedia().getMedia().getType().toString(), lending.getPhysicalMedia().getIndex(), sdf.format(lending.getLendDate()), customerDTO, lending.getPhysicalMedia(), lending));
-        }
-        tableViewLendings.setItems(lendingEntries);
     }
 
     @FXML
@@ -182,7 +224,7 @@ public class DetailCustomerViewController {
         } else {
             MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
         }
-        initLending();
+        initLendings();
     }
-
 }
+
