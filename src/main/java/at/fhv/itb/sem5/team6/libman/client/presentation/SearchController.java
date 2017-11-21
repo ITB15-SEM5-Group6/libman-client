@@ -96,17 +96,21 @@ public class SearchController {
         try {
             tableView.getItems().clear();
             String searchText = searchTextField.getText();
-            ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
+            if(searchText.isEmpty()) {
+                MessageHelper.showErrorAlertMessage("Please enter a search text!");
+            } else {
+                ObservableList<MediaEntry> mediaEntries = FXCollections.observableArrayList();
 
-            List<MediaDTO> allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
-            for (MediaDTO media : allMedia) {
-                List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().findPhysicalMediasByMedia(media.getId());
-                List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(media.getId());
+                List<MediaDTO> allMedia = ClientController.getInstance().findAllMedia(searchText, comboGenre.getSelectionModel().getSelectedItem(), comboMediatype.getSelectionModel().getSelectedItem(), comboAvailabilty.getSelectionModel().getSelectedItem());
+                for (MediaDTO media : allMedia) {
+                    List<PhysicalMediaDTO> physicalMedia = ClientController.getInstance().findPhysicalMediasByMedia(media.getId());
+                    List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(media.getId());
 
-                String available = (physicalMedia.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? Availability.AVAILABLE.toString(): Availability.NOT_AVAILABLE.toString();
-                mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), available, media));
+                    String available = (physicalMedia.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? Availability.AVAILABLE.toString() : Availability.NOT_AVAILABLE.toString();
+                    mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), available, media));
+                }
+                tableView.setItems(mediaEntries);
             }
-            tableView.setItems(mediaEntries);
         } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }

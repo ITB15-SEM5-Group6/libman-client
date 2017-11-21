@@ -176,7 +176,6 @@ public class NewLendingController {
             ObservableList<SelectMediaEntry> lendingEntries = FXCollections.observableArrayList();
 
             String searchText = textFieldSearchPhysicalMedia.getText();
-
             if(searchText.isEmpty()) {
                 MessageHelper.showErrorAlertMessage("Please enter a search text!");
             } else {
