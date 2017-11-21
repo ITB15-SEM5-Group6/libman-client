@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.CustomerEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -53,7 +54,7 @@ public class NewReservationController extends NewController {
             if (customerDTO != null) {
                 ClientController.getInstance().reserve(DetailMediaViewController.mediaDTO.getId(), customerDTO.getId());
                 DetailMediaViewController.detailStage.close();
-                MessageHelper.showConfirmationMessage("New Reservation saved!");
+                MessageHelper.showInformationMessage("New Reservation saved!");
             }
         }catch(Exception e) {
             MessageHelper.showErrorAlertMessage("Reservation could not be saved!");

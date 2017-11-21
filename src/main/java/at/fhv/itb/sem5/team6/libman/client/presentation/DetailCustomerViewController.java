@@ -1,9 +1,13 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
-import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButtons.ExtendLendingCell;
-import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButtons.RemoveLendingCell;
+import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButton.ExtendLendingCell;
+import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButton.LendReservationCell;
+import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButton.RemoveLendingCell;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.LendingEntry;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.ReservationEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
+import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
@@ -16,8 +20,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.Callback;
 
 import java.rmi.RemoteException;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DetailCustomerViewController {
 
@@ -44,12 +48,6 @@ public class DetailCustomerViewController {
     private Label lableBIC;
 
     @FXML
-    private Button buttonReserve;
-
-    @FXML
-    private Button buttonLend;
-
-    @FXML
     private TableView<LendingEntry> tableViewLendings;
 
     @FXML
@@ -74,6 +72,12 @@ public class DetailCustomerViewController {
     private TableColumn<ReservationEntry, String> ReservationDateColumn;
 
     @FXML
+    private TableColumn<ReservationEntry, String> ReservationMediaTypeColumn;
+
+    @FXML
+    private TableColumn<ReservationEntry, Boolean> LendReservationColumn;
+
+    @FXML
     private TableColumn<LendingEntry, String> LendingStateColumn;
 
     @FXML
@@ -81,6 +85,9 @@ public class DetailCustomerViewController {
 
     @FXML
     TableColumn<LendingEntry, Boolean> ExtendLendingColumn = new TableColumn<LendingEntry, Boolean>();
+
+    @FXML
+    private Button NewLendingButton;
 
     public void initialize() throws RemoteException {
         initColumns();
@@ -133,10 +140,23 @@ public class DetailCustomerViewController {
             }
         });
 
-        ReservationDateColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
+        ReservationTitleColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(4));
+        ReservationDateColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(4));
+        ReservationMediaTypeColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(4));
+        LendReservationColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(4));
+
+        ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("title"));
         ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("date"));
-        ReservationTitleColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
-        ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("media"));
+        ReservationMediaTypeColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("mediaType"));
+
+        // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
+        LendReservationColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ReservationEntry, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ReservationEntry, Boolean> features) {
+                boolean initialValue = features.getValue() != null;
+                return new SimpleBooleanProperty(initialValue);
+            }
+        });
     }
 
     private void loadLendings() {
@@ -169,16 +189,22 @@ public class DetailCustomerViewController {
         tableViewReservation.getItems().clear();
 
         ObservableList<ReservationEntry> reservationEntries = FXCollections.observableArrayList();
-
         try {
             List<ReservationDTO> allReservations = ClientController.getInstance().getAllReservations(customerDTO.getId());
             for (ReservationDTO reservation : allReservations) {
-                reservationEntries.add(new ReservationEntry(reservation.getMedia().getTitle(),reservation.getMedia().getType().toString(), customerDTO, reservation.getMedia(), reservation));
+                reservationEntries.add(new ReservationEntry(
+                                        reservation.getMedia().getTitle(),
+                                        reservation.getMedia().getType().toString(),
+                                        reservation.getDate(),
+                                        customerDTO,
+                                        reservation.getMedia(),
+                                        reservation));
             }
             tableViewReservation.setItems(reservationEntries);
         } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
+        createDynamicLendReservationButton();
     }
 
     private void createDynamicRemoveLendingButton() {
@@ -223,7 +249,7 @@ public class DetailCustomerViewController {
                         LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
                         if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
                             ClientController.getInstance().extendLending(lendingDTO.getId());
-                            MessageHelper.showConfirmationMessage("Extention successful!");
+                            MessageHelper.showInformationMessage("Extention successful!");
                             loadLendings();
                         } else {
                             MessageHelper.showErrorAlertMessage("Lending is already returned!");
@@ -235,6 +261,46 @@ public class DetailCustomerViewController {
                 return cell;
             }
         });
+    }
+
+    private void createDynamicLendReservationButton() {
+        // create a cell value factory with an add button for each row in the table.
+        LendReservationColumn.setCellFactory(new Callback<TableColumn<ReservationEntry, Boolean>, TableCell<ReservationEntry, Boolean>>() {
+            @Override
+            public TableCell<ReservationEntry, Boolean> call(TableColumn<ReservationEntry, Boolean> extendLendingBooleanTableColumn) {
+                LendReservationCell cell = new LendReservationCell();
+
+                cell.getLendReservationButton().setOnAction(actionEvent -> {
+                    //is necessary because if you directly click the button without selecting the row first no row is selected
+                    tableViewReservation.getSelectionModel().select(cell.getTableRow().getIndex());
+
+                    try {
+                        ReservationEntry ee = tableViewReservation.getSelectionModel().getSelectedItem();
+                        ReservationDTO reservationDTO = ee.getReservationDTO();
+
+                        List<PhysicalMediaDTO> physicalAvailableMedias = ClientController.getInstance().findPhysicalMediasByMedia(reservationDTO.getMedia().getId()).stream().filter(x -> Availability.AVAILABLE.equals(x.getAvailability())).collect(Collectors.toList());
+                        if(physicalAvailableMedias.isEmpty()) {
+                            MessageHelper.showErrorAlertMessage("Dieses Medium ist dzt. leider nicht vorhanden.");
+                        } else {
+                            LendingDTO lending = ClientController.getInstance().lendPhysicalMedia(physicalAvailableMedias.get(0).getId(), reservationDTO.getCustomer().getId());
+                            MessageHelper.showInformationMessage("Es wurde für " + lending.getPhysicalMedia().getMedia().getTitle() + " das Exemplar mit dem Index " + lending.getPhysicalMedia().getIndex() + " ausgehliehen.");
+                        }
+                        loadReservations();
+                        loadLendings();
+                    } catch (Exception e) {
+                        MessageHelper.showErrorAlertMessage(e.getMessage());
+                    }
+                });
+                return cell;
+            }
+        });
+    }
+
+
+
+    @FXML
+    void OpenMediaSearchDlg(ActionEvent event) {
+
     }
 }
 

@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.CustomerEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
@@ -10,9 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
-
-import java.lang.reflect.InvocationTargetException;
-import java.rmi.RemoteException;
 
 
 public class NewLendingController extends NewController {
@@ -58,7 +56,7 @@ public class NewLendingController extends NewController {
             try {
                 LendingDTO lending = ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia().getId(), customerDTO.getId());
                 DetailMediaViewController.detailStage.close();
-                MessageHelper.showConfirmationMessage("New Lending saved!");
+                MessageHelper.showInformationMessage("New Lending saved!");
                 //DetailMediaViewController.loadTableViewWithPhysicalMediaDTOs();
             } catch (Exception e) {
                 MessageHelper.showErrorAlertMessage(e.getMessage());

@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.CustomerEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

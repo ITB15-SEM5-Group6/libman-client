@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.MediaEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.ReservationDTO;
@@ -9,7 +10,6 @@ import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,12 +24,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
-import javax.validation.constraints.NotNull;
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
 public class SearchController {

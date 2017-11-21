@@ -20,4 +20,12 @@ public class MessageHelper {
         alert.setHeaderText(errormessage);
         alert.showAndWait();
     }
+
+    public static void showInformationMessage(String infomessage){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Info");
+        alert.setHeaderText(infomessage);
+        alert.showAndWait();
+    }
+
 }

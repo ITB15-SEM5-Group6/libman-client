@@ -1,22 +1,12 @@
-package at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButtons;
+package at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButton;
 
-import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
-import at.fhv.itb.sem5.team6.libman.client.presentation.LendingEntry;
-import at.fhv.itb.sem5.team6.libman.client.presentation.MessageHelper;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
-import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.LendingEntry;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.TableCell;
-import javafx.scene.control.TableView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.rmi.RemoteException;
 
 public class RemoveLendingCell extends TableCell<LendingEntry, Boolean> {
 

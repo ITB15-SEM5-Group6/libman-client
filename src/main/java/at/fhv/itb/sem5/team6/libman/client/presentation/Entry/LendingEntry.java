@@ -1,4 +1,4 @@
-package at.fhv.itb.sem5.team6.libman.client.presentation;
+package at.fhv.itb.sem5.team6.libman.client.presentation.Entry;
 
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;

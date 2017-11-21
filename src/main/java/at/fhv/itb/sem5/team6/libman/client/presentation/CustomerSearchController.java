@@ -1,20 +1,16 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.CustomerSearchEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +20,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
