@@ -31,7 +31,7 @@ public class LendingEntry {
         this.lendingState = new SimpleStringProperty(state.toString());
 
         this.customerDTO = customerDTO;
-        this.physicalMediaDTO = physicalMediaDTO;
+        this.physicalMediaDTO = physicalMediaDTO;;
         this.lendingDTO = lendingDTO;
     }
 

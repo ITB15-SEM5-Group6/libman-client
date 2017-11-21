@@ -92,7 +92,7 @@ public class CustomerSearchController {
 
         try {
             allCustomers = ClientController.getInstance().getCustomers(searchText);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
 

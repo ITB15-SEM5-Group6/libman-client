@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
+import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButtons.ExtendLendingCell;
 import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButtons.RemoveLendingCell;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
 import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
@@ -78,6 +79,9 @@ public class DetailCustomerViewController {
     @FXML
     TableColumn<LendingEntry, Boolean> RemoveLendingColumn = new TableColumn<LendingEntry, Boolean>();
 
+    @FXML
+    TableColumn<LendingEntry, Boolean> ExtendLendingColumn = new TableColumn<LendingEntry, Boolean>();
+
     public void initialize() throws RemoteException {
         initColumns();
 
@@ -97,12 +101,13 @@ public class DetailCustomerViewController {
     private void initColumns(){
 
         //width:
-        lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
-        LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
-        LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
-        LendingLendDateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
-        LendingStateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
-        RemoveLendingColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
+        lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
+        LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
+        LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
+        LendingLendDateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
+        LendingStateColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
+        RemoveLendingColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
+        ExtendLendingColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(7));
 
         lendingTitleColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("title"));
         LendingMediaTypeColumn.setCellValueFactory(new PropertyValueFactory<LendingEntry, String>("mediaType"));
@@ -112,6 +117,15 @@ public class DetailCustomerViewController {
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
         RemoveLendingColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LendingEntry, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LendingEntry, Boolean> features) {
+                boolean initialValue = features.getValue() != null && LendingState.LENT.toString().equals(features.getValue().getLendingState());
+                return new SimpleBooleanProperty(initialValue);
+            }
+        });
+
+        // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
+        ExtendLendingColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LendingEntry, Boolean>, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LendingEntry, Boolean> features) {
                 boolean initialValue = features.getValue() != null && LendingState.LENT.toString().equals(features.getValue().getLendingState());
@@ -141,45 +155,29 @@ public class DetailCustomerViewController {
                         customerDTO,
                         lending.getPhysicalMedia(),
                         lending));
+
             }
             tableViewLendings.setItems(lendingEntries);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
         createDynamicRemoveLendingButton();
+        createDynamicExtendLendingButton();
     }
 
     private void loadReservations() {
         tableViewReservation.getItems().clear();
+
         ObservableList<ReservationEntry> reservationEntries = FXCollections.observableArrayList();
-        List<ReservationDTO> allReservations = new LinkedList<>();
 
         try {
-            allReservations = ClientController.getInstance().getAllReservations(customerDTO.getId());
-        } catch (RemoteException e) {
-            MessageHelper.showErrorAlertMessage(e.getMessage());
-        }
-
-        for (ReservationDTO reservation : allReservations) {
-            reservationEntries.add(new ReservationEntry(reservation.getMedia().getTitle(),reservation.getMedia().getType().toString(), customerDTO, reservation.getMedia(), reservation));
-        }
-
-        tableViewReservation.setItems(reservationEntries);
-    }
-
-    @FXML
-    void extend(ActionEvent event) {
-        LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
-        if(lendingDTO != null) {
-            try {
-                if(ClientController.getInstance().extendLending(lendingDTO.getId()) != null) {
-                    MessageHelper.showConfirmationMessage("Extention successful!");
-                }
-            } catch (RemoteException e) {
-               MessageHelper.showConfirmationMessage(e.getMessage());
+            List<ReservationDTO> allReservations = ClientController.getInstance().getAllReservations(customerDTO.getId());
+            for (ReservationDTO reservation : allReservations) {
+                reservationEntries.add(new ReservationEntry(reservation.getMedia().getTitle(),reservation.getMedia().getType().toString(), customerDTO, reservation.getMedia(), reservation));
             }
-        } else {
-            MessageHelper.showErrorAlertMessage("No lending object selected!");
+            tableViewReservation.setItems(reservationEntries);
+        } catch (Exception e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
         }
     }
 
@@ -193,17 +191,45 @@ public class DetailCustomerViewController {
                 cell.getRemoveLendingButton().setOnAction(actionEvent -> {
                     //is necessary because if you directly click the button without selecting the row first no row is selected
                     tableViewLendings.getSelectionModel().select(cell.getTableRow().getIndex());
-
-                    LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
-                    if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
-                        try {
+                    try {
+                        LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
+                        if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
                             ClientController.getInstance().returnLending(lendingDTO.getId());
                             loadLendings();
-                        } catch (RemoteException e) {
-                            MessageHelper.showConfirmationMessage(e.getMessage());
+                        } else {
+                            MessageHelper.showErrorAlertMessage("Lending is already returned!");
                         }
-                    } else {
-                        MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
+                    } catch (Exception e) {
+                        MessageHelper.showErrorAlertMessage(e.getMessage());
+                    }
+                });
+                return cell;
+            }
+        });
+    }
+
+    private void createDynamicExtendLendingButton() {
+        // create a cell value factory with an add button for each row in the table.
+        ExtendLendingColumn.setCellFactory(new Callback<TableColumn<LendingEntry, Boolean>, TableCell<LendingEntry, Boolean>>() {
+            @Override
+            public TableCell<LendingEntry, Boolean> call(TableColumn<LendingEntry, Boolean> extendLendingBooleanTableColumn) {
+                ExtendLendingCell cell = new ExtendLendingCell();
+
+                cell.getExtendLendingButton().setOnAction(actionEvent -> {
+                    //is necessary because if you directly click the button without selecting the row first no row is selected
+                    tableViewLendings.getSelectionModel().select(cell.getTableRow().getIndex());
+
+                    try {
+                        LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
+                        if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
+                            ClientController.getInstance().extendLending(lendingDTO.getId());
+                            MessageHelper.showConfirmationMessage("Extention successful!");
+                            loadLendings();
+                        } else {
+                            MessageHelper.showErrorAlertMessage("Lending is already returned!");
+                        }
+                    } catch (Exception e) {
+                        MessageHelper.showErrorAlertMessage(e.getMessage());
                     }
                 });
                 return cell;

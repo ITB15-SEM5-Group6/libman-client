@@ -111,7 +111,7 @@ public class SearchController {
                 mediaEntries.add(new MediaEntry(media.getTitle(), media.getType().toString(), available, media));
             }
             tableView.setItems(mediaEntries);
-        } catch (RemoteException e) {
+        } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
     }
