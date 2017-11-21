@@ -41,7 +41,7 @@
                     </rowConstraints>
                     <children>
                         <Button fx:id="searchButton" mnemonicParsing="false" onAction="#search" prefHeight="25.0" prefWidth="63.0" text="Search" GridPane.columnIndex="1" />
-                        <TextField fx:id="searchField" onKeyPressed="#handleEnterPressed" />
+                        <TextField fx:id="searchField" onKeyPressed="#handleEnterPressed" promptText="Enter a customer name ..." />
                     </children>
                 </GridPane>
                 <TableView fx:id="tableView" onMouseClicked="#clickItem" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
