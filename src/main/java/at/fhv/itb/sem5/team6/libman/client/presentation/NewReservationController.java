@@ -15,9 +15,9 @@ import java.rmi.RemoteException;
 /**
  * Created by Christina on 13.11.2017.
  */
-public class NewReservationController extends NewController {
+public class NewReservationController {
     @FXML
-    private TextField textFieldSearchCustomer;
+    private TextField textFieldSearchMedia;
 
     @FXML
     private Button buttonSearchCustomer;
@@ -33,7 +33,7 @@ public class NewReservationController extends NewController {
 
     @FXML
     public void initialize() throws RemoteException {
-        initColumns(tableView);
+        //initColumns(tableView);
     }
 
     @FXML
@@ -49,7 +49,7 @@ public class NewReservationController extends NewController {
     @FXML
     void save(ActionEvent event) {
         try {
-            String searchText = textFieldSearchCustomer.getText();
+            String searchText = textFieldSearchMedia.getText();
             CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
             if (customerDTO != null) {
                 ClientController.getInstance().reserve(DetailMediaViewController.mediaDTO.getId(), customerDTO.getId());
@@ -64,8 +64,8 @@ public class NewReservationController extends NewController {
     @FXML
     void searchCustomer(ActionEvent event) {
         try {
-            String searchText = textFieldSearchCustomer.getText();
-            searchCustomer(searchText, tableView);
+            String searchText = textFieldSearchMedia.getText();
+            //searchCustomer(searchText, tableView);
         } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }

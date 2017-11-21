@@ -109,6 +109,10 @@ public class DetailCustomerViewController {
         loadReservations();
     }
 
+    public static CustomerDTO getSelectedCustomer() {
+        return customerDTO;
+    }
+
     private void initColumns(){
 
         //width:
@@ -299,8 +303,6 @@ public class DetailCustomerViewController {
             }
         });
     }
-
-
 
     @FXML
     void openNewLendingDlg(ActionEvent event) {

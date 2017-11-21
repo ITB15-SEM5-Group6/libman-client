@@ -1,76 +1,91 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
-import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.CustomerEntry;
+import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.*;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
+import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
+import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
+import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
+import java.rmi.RemoteException;
+import java.util.List;
 
-public class NewLendingController extends NewController {
 
-    @FXML
-    private TextField textFieldSearchCustomer;
+public class NewLendingController {
 
-    @FXML
-    private Button buttonSearchCustomer;
-
-    @FXML
-    private TableView<CustomerEntry> tableView;
+    private CustomerDTO customerDTO;
 
     @FXML
-    private Button buttonSaveLending;
+    private TextField textFieldSearchPhysicalMedia;
 
     @FXML
-    private Button buttonCancelLending;
-
-    private MediaDTO mediaDTO;
+    private Button buttonSearchPhysicalMedia;
 
     @FXML
-    void cancel(ActionEvent event) {
-
-    }
+    private TableView<SelectMediaEntry> tableView;
 
     @FXML
-    public void initialize() {
+    public void initialize() throws RemoteException {
         initColumns(tableView);
     }
 
+    public void initColumns(TableView tableView) {
+        customerDTO = DetailCustomerViewController.getSelectedCustomer();
 
+        TableColumn<SelectMediaEntry, String> titleCol = new TableColumn("Title");
+        titleCol.setCellValueFactory(new PropertyValueFactory<>("title"));
+        titleCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
 
-    @FXML
-    void clickItem(MouseEvent event) {
+        TableColumn<SelectMediaEntry, String> mediaTypeCol = new TableColumn("Media Type");
+        mediaTypeCol.setCellValueFactory(new PropertyValueFactory<>("mediaType"));
+        mediaTypeCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
+
+        TableColumn<SelectMediaEntry, String> index = new TableColumn("Index");
+        index.setCellValueFactory(new PropertyValueFactory<>("index"));
+        index.prefWidthProperty().bind(tableView.widthProperty().divide(5));
+
+        TableColumn<SelectMediaEntry, String> availabilityCol = new TableColumn("Available");
+        availabilityCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+        availabilityCol.prefWidthProperty().bind(tableView.widthProperty().divide(5));
+
+        tableView.getColumns().addAll(titleCol, mediaTypeCol, index, availabilityCol);
     }
 
     @FXML
-    void save(ActionEvent event) {
-        /*
-        CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
-
-        if(customerDTO != null) {
-            try {
-                LendingDTO lending = ClientController.getInstance().lendPhysicalMedia(DetailMediaViewController.getCurrentSelectedPhysicalMedia().getId(), customerDTO.getId());
-                DetailMediaViewController.detailStage.close();
-                MessageHelper.showInformationMessage("New Lending saved!");
-                //DetailMediaViewController.loadTableViewWithPhysicalMediaDTOs();
-            } catch (Exception e) {
-                MessageHelper.showErrorAlertMessage(e.getMessage());
-            }
-        }
-        */
-    }
-
-    @FXML
-    void searchCustomer(ActionEvent event){
+    void searchPhysicalMedia() {
         try {
-            String searchText = textFieldSearchCustomer.getText();
-            searchCustomer(searchText, tableView);
+            ObservableList<SelectMediaEntry> lendingEntries = FXCollections.observableArrayList();
+
+            String searchText = textFieldSearchPhysicalMedia.getText();
+
+            if(searchText.isEmpty()) {
+                MessageHelper.showErrorAlertMessage("Please enter a search text!");
+            } else {
+                List<MediaDTO> mediaList = ClientController.getInstance().findAllMedia(searchText, Genre.ALL, MediaType.ALL, Availability.AVAILABLE);
+
+                for(MediaDTO media : mediaList) {
+                    List<PhysicalMediaDTO> physicalMediaList = ClientController.getInstance().findPhysicalMediasByMedia(media.getId());
+
+                    for(PhysicalMediaDTO physicalMedia : physicalMediaList) {
+                        lendingEntries.add(new SelectMediaEntry(media.getTitle(), media.getType(), physicalMedia.getIndex(), physicalMedia.getAvailability(), customerDTO, physicalMedia, media));
+                    }
+                }
+                tableView.setItems(lendingEntries);
+            }
+
         } catch (Exception e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
