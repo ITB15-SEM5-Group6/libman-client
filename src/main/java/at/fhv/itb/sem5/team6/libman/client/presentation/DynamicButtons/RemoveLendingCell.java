@@ -38,7 +38,12 @@ public class RemoveLendingCell extends TableCell<LendingEntry, Boolean> {
     /** places an button in the row only if the row is not empty. */
     @Override
     protected void updateItem(Boolean item, boolean empty) {
+        //only if item is true the button is displayed
+        if(item != null && !item) {
+            empty = true;
+        }
         super.updateItem(item, empty);
+
         if (!empty) {
             setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
             setGraphic(paddedButton);

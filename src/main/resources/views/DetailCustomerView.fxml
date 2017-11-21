@@ -108,7 +108,6 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <Button fx:id="buttonLend" mnemonicParsing="false" onAction="#returnLending" prefHeight="38.0" prefWidth="136.0" text="Return Lending" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
                               <Button fx:id="buttonReserve" mnemonicParsing="false" onAction="#extend" prefHeight="38.0" prefWidth="136.0" text="Extend Lending" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS" />
                            </children>
                         </GridPane>

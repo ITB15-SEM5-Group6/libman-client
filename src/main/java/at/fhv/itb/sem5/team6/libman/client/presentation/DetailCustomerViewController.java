@@ -9,7 +9,6 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -91,11 +90,13 @@ public class DetailCustomerViewController {
         lableIban.setText(customerDTO.getIban());
         lableBIC.setText(customerDTO.getBic());
 
-        initTableValues();
+        loadLendings();
+        loadReservations();
     }
 
     private void initColumns(){
 
+        //width:
         lendingTitleColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
         LendingMediaTypeColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
         LendingIndexColumn.prefWidthProperty().bind(tableViewLendings.widthProperty().divide(6));
@@ -113,10 +114,10 @@ public class DetailCustomerViewController {
         RemoveLendingColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LendingEntry, Boolean>, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LendingEntry, Boolean> features) {
-                return new SimpleBooleanProperty(features.getValue() != null);
+                boolean initialValue = features.getValue() != null && LendingState.LENT.toString().equals(features.getValue().getLendingState());
+                return new SimpleBooleanProperty(initialValue);
             }
         });
-        RemoveLendingColumn.setSortable(false);
 
         ReservationDateColumn.prefWidthProperty().bind(tableViewReservation.widthProperty().divide(2));
         ReservationDateColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("date"));
@@ -124,12 +125,7 @@ public class DetailCustomerViewController {
         ReservationTitleColumn.setCellValueFactory(new PropertyValueFactory<ReservationEntry, String>("media"));
     }
 
-    private void initTableValues(){
-        initLendings();
-        initReservations();
-    }
-
-    private void initLendings() {
+    private void loadLendings() {
         tableViewLendings.getItems().clear();
 
         ObservableList<LendingEntry> lendingEntries = FXCollections.observableArrayList();
@@ -150,35 +146,10 @@ public class DetailCustomerViewController {
         } catch (RemoteException e) {
             MessageHelper.showErrorAlertMessage(e.getMessage());
         }
-
-        // create a cell value factory with an add button for each row in the table.
-        RemoveLendingColumn.setCellFactory(new Callback<TableColumn<LendingEntry, Boolean>, TableCell<LendingEntry, Boolean>>() {
-            @Override
-            public TableCell<LendingEntry, Boolean> call(TableColumn<LendingEntry, Boolean> removeLendingBooleanTableColumn) {
-                RemoveLendingCell cell = new RemoveLendingCell();
-
-                cell.getRemoveLendingButton().setOnAction(actionEvent -> {
-                    //is necessary because if you directly click the button without selecting the row first no row is selected
-                    tableViewLendings.getSelectionModel().select(cell.getTableRow().getIndex());
-
-                    LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
-                    if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
-                        try {
-                            ClientController.getInstance().returnLending(lendingDTO.getId());
-                            initLendings();
-                        } catch (RemoteException e) {
-                            MessageHelper.showConfirmationMessage(e.getMessage());
-                        }
-                    } else {
-                        MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
-                    }
-                });
-                return cell;
-            }
-        });
+        createDynamicRemoveLendingButton();
     }
 
-    private void initReservations() {
+    private void loadReservations() {
         tableViewReservation.getItems().clear();
         ObservableList<ReservationEntry> reservationEntries = FXCollections.observableArrayList();
         List<ReservationDTO> allReservations = new LinkedList<>();
@@ -212,19 +183,32 @@ public class DetailCustomerViewController {
         }
     }
 
-    @FXML
-    void returnLending(ActionEvent event) {
-        LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
-        if (lendingDTO != null && lendingDTO.getState().equals(LendingState.LENT)) {
-            try {
-                ClientController.getInstance().returnLending(lendingDTO.getId());
-            } catch (RemoteException e) {
-                MessageHelper.showConfirmationMessage(e.getMessage());
+    private void createDynamicRemoveLendingButton() {
+        // create a cell value factory with an add button for each row in the table.
+        RemoveLendingColumn.setCellFactory(new Callback<TableColumn<LendingEntry, Boolean>, TableCell<LendingEntry, Boolean>>() {
+            @Override
+            public TableCell<LendingEntry, Boolean> call(TableColumn<LendingEntry, Boolean> removeLendingBooleanTableColumn) {
+                RemoveLendingCell cell = new RemoveLendingCell();
+
+                cell.getRemoveLendingButton().setOnAction(actionEvent -> {
+                    //is necessary because if you directly click the button without selecting the row first no row is selected
+                    tableViewLendings.getSelectionModel().select(cell.getTableRow().getIndex());
+
+                    LendingDTO lendingDTO = tableViewLendings.getSelectionModel().getSelectedItem().getLendingDTO();
+                    if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
+                        try {
+                            ClientController.getInstance().returnLending(lendingDTO.getId());
+                            loadLendings();
+                        } catch (RemoteException e) {
+                            MessageHelper.showConfirmationMessage(e.getMessage());
+                        }
+                    } else {
+                        MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
+                    }
+                });
+                return cell;
             }
-        } else {
-            MessageHelper.showErrorAlertMessage("No lending object selected or Lending is already returned!");
-        }
-        initLendings();
+        });
     }
 }
 
