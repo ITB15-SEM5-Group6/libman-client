@@ -24,7 +24,7 @@ public class Client extends Application {
 
         Registry registry = LocateRegistry.getRegistry(host, port);
         ILibraryFactory stubFactory = (ILibraryFactory) registry.lookup("LibraryFactory");
-        ILibrary stub = stubFactory.create();
+        ILibrary stub = stubFactory.create(null, null);
         ClientController.setLibrary(stub);
 
         // start gui

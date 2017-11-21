@@ -20,7 +20,7 @@ public class ClientTest {
 
         Registry registry = LocateRegistry.getRegistry(host, port);
         ILibraryFactory stubFactory = (ILibraryFactory) registry.lookup("LibraryFactory");
-        ILibrary stub = stubFactory.create();
+        ILibrary stub = stubFactory.create(null, null);
 
         //stub.findAllMedia().forEach(System.out::println);
 
