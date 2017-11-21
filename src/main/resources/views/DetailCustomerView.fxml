@@ -110,12 +110,12 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
-                  <Button fx:id="NewLendingButton" mnemonicParsing="false" onAction="#OpenMediaSearchDlg" text="New Lending" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
+                  <Button fx:id="NewLendingButton" mnemonicParsing="false" onAction="#openNewLendingDlg" text="New Lending" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="CENTER">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
-                  <Button fx:id="NewReservationButton" mnemonicParsing="false" onAction="#OpenMediaSearchDlg" text="New Reservation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
+                  <Button fx:id="NewReservationButton" mnemonicParsing="false" onAction="#openNewReservationDlg" text="New Reservation" GridPane.columnIndex="2" GridPane.halignment="LEFT">
                      <font>
                         <Font size="16.0" />
                      </font>

@@ -50,6 +50,7 @@ public class NewLendingController extends NewController {
 
     @FXML
     void save(ActionEvent event) {
+        /*
         CustomerDTO customerDTO = tableView.getSelectionModel().getSelectedItem().getCustomerDTO();
 
         if(customerDTO != null) {
@@ -62,6 +63,7 @@ public class NewLendingController extends NewController {
                 MessageHelper.showErrorAlertMessage(e.getMessage());
             }
         }
+        */
     }
 
     @FXML

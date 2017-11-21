@@ -1,6 +1,7 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
 import javafx.scene.control.Alert;
+import javafx.scene.image.ImageView;
 
 /**
  * Created by Christina on 13.11.2017.
@@ -12,6 +13,7 @@ public class MessageHelper {
             alert.setTitle("Confirmation");
             alert.setHeaderText(confirmation);
             alert.showAndWait();
+
     }
 
     public static void showErrorAlertMessage(String errormessage){

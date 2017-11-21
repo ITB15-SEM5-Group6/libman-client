@@ -12,27 +12,30 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.NewLendingController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.NewLendingController">
    <children>
       <AnchorPane VBox.vgrow="ALWAYS">
          <children>
             <GridPane layoutX="126.0" layoutY="215.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" minWidth="10.0" prefWidth="100.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="5.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="5.0" />
               </columnConstraints>
               <rowConstraints>
+                  <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="199.0" minHeight="1.0" prefHeight="137.0" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="406.0" minHeight="10.0" prefHeight="92.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="406.0" minHeight="10.0" prefHeight="326.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="83.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                <RowConstraints percentHeight="5.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Label text="New Lending">
+                  <Label text="New Lending" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <GridPane GridPane.rowIndex="1">
+                  <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <columnConstraints>
                       <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="80.0" />
                       <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="20.0" />
@@ -41,24 +44,11 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TextField fx:id="textFieldSearchCustomer" />
-                        <Button fx:id="buttonSearchCustomer" mnemonicParsing="false" onAction="#searchCustomer" text="Search Customer" GridPane.columnIndex="1" />
+                        <TextField fx:id="textFieldSearchCustomer" promptText="Enter a search text ..." />
+                        <Button fx:id="buttonSearchPhysicalMedia" mnemonicParsing="false" onAction="#searchPhysicalMedia" text="Search Physical Media" GridPane.columnIndex="1" GridPane.halignment="RIGHT" />
                      </children>
                   </GridPane>
-                  <TableView fx:id="tableView" onMouseClicked="#clickItem" prefHeight="314.0" prefWidth="896.0" GridPane.rowIndex="2" />
-                  <GridPane GridPane.rowIndex="3">
-                    <columnConstraints>
-                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="50.0" />
-                      <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" percentWidth="50.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <Button fx:id="buttonSaveLending" mnemonicParsing="false" onAction="#save" text="Save Lending" GridPane.columnIndex="1" />
-                        <Button fx:id="buttonCancelLending" mnemonicParsing="false" onAction="#cancel" text="Cancel Lending" />
-                     </children>
-                  </GridPane>
+                  <TableView fx:id="tableView" onMouseClicked="#clickItem" prefHeight="314.0" prefWidth="896.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                </children>
             </GridPane>
          </children>
