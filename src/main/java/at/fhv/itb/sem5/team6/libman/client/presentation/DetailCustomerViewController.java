@@ -14,6 +14,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -21,6 +22,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 
 import java.rmi.RemoteException;
@@ -283,8 +285,7 @@ public class DetailCustomerViewController {
                     tableViewReservation.getSelectionModel().select(cell.getTableRow().getIndex());
 
                     try {
-                        ReservationEntry ee = tableViewReservation.getSelectionModel().getSelectedItem();
-                        ReservationDTO reservationDTO = ee.getReservationDTO();
+                        ReservationDTO reservationDTO = tableViewReservation.getSelectionModel().getSelectedItem().getReservationDTO();
 
                         List<PhysicalMediaDTO> physicalAvailableMedias = ClientController.getInstance().findPhysicalMediasByMedia(reservationDTO.getMedia().getId()).stream().filter(x -> Availability.AVAILABLE.equals(x.getAvailability())).collect(Collectors.toList());
                         if(physicalAvailableMedias.isEmpty()) {
@@ -305,7 +306,7 @@ public class DetailCustomerViewController {
     }
 
     @FXML
-    void openNewLendingDlg(ActionEvent event) {
+    void openNewLendingDlg() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/views/NewLendingView.fxml"));
         Scene scene = null;
@@ -319,12 +320,13 @@ public class DetailCustomerViewController {
         stage.setTitle("New Lending");
         stage.setScene(scene);
         stage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
-        //NewLendingController.detailStage = stage;
+        NewLendingController.detailStage = stage;
         stage.show();
+        stage.setOnHiding( event -> {loadLendings();} );
     }
 
     @FXML
-    void openNewReservationDlg(ActionEvent event) {
+    void openNewReservationDlg() {
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(getClass().getResource("/views/NewReservationView.fxml"));
         Scene scene = null;

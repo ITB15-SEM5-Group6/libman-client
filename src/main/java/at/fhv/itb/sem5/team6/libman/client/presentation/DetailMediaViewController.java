@@ -26,9 +26,12 @@ import java.util.List;
  */
 public class DetailMediaViewController {
 
-    public static MediaDTO mediaDTO;
     static Stage detailStage;
+
     private static PhysicalMediaDTO selectedPhysicalMedia;
+
+    public static MediaDTO mediaDTO;
+
     @FXML
     private Label titleLabel;
     @FXML
@@ -93,13 +96,6 @@ public class DetailMediaViewController {
         }
     }
 
-    @FXML
-    void clickItem(MouseEvent event) {
-        if (tableView.getItems().size() > 0) {
-            selectedPhysicalMedia = tableView.getSelectionModel().getSelectedItem().getPhysicalMediaDTO();
-        }
-    }
-
     private void initColumns() {
         TableColumn<PhysicalMediaEntry, String> indexCol = new TableColumn("Index");
         indexCol.setCellValueFactory(new PropertyValueFactory<>("index"));
@@ -110,28 +106,5 @@ public class DetailMediaViewController {
         availCol.prefWidthProperty().bind(tableView.widthProperty().divide(2)); // w * 1/2
 
         tableView.getColumns().addAll(indexCol, availCol);
-    }
-
-    @FXML
-    void lend(ActionEvent event) {
-        if(Availability.AVAILABLE.equals(selectedPhysicalMedia.getAvailability())) {
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("/views/NewLendingView.fxml"));
-            Scene scene = null;
-            try {
-                scene = new Scene(fxmlLoader.load());
-            } catch (Exception e) {
-                MessageHelper.showErrorAlertMessage(e.getMessage());
-            }
-            detailStage = new Stage();
-            detailStage.setTitle("New Lending");
-            detailStage.setScene(scene);
-            detailStage.show();
-        }
-    }
-
-    @FXML
-    void reserve(ActionEvent event) {
-
     }
 }
