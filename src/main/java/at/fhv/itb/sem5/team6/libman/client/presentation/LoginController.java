@@ -1,9 +1,8 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
+import at.fhv.itb.sem5.team6.libman.client.backend.RMIController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -11,8 +10,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 
 public class LoginController {
+
     @FXML
     private TextField username;
 
@@ -47,19 +48,25 @@ public class LoginController {
     void continueAsGuest(ActionEvent event) {
         ClientGUI gui = new ClientGUI();
         try {
-            gui.loadSearchForGuest(ClientGUI.primaryStage);
+            RMIController.getInstance().doConnection(null, null);
+            gui.loadSearchForGuest();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (NotBoundException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    void login() {
+    void login() throws IOException, NotBoundException {
+        RMIController.getInstance().doConnection(username.getText(), password.getText());
+        ClientGUI gui = new ClientGUI();
+        gui.loadGUI(ClientGUI.primaryStage);
     }
 
     //handles the Enter-Key-Button for faster login.
     @FXML
-    public void handleEnterPressed(KeyEvent event){
+    public void handleEnterPressed(KeyEvent event) throws IOException, NotBoundException {
         if(event.getCode() == KeyCode.ENTER){
             login();
         }

@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -55,13 +56,13 @@ public class MainFrameController {
     }
 
     @FXML
-    void changeUser(ActionEvent event) {
-
+    void changeUser(ActionEvent event) throws IOException {
+        ClientGUI.changeUser(new Stage());
     }
 
     @FXML
     void logout(ActionEvent event) {
-
+        ClientGUI.closeLIBMAN();
     }
 
     @FXML
