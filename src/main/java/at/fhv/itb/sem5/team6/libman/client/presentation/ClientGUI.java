@@ -33,11 +33,12 @@ public class ClientGUI {
 
 
     public void loadGUI(Stage primaryStage) throws IOException{
+        loginStage.close();
         primaryStage.setTitle("LIBMAN");
         primaryStage.setMaximized(true);
 
         primaryStage.setOnCloseRequest(t -> {
-            //closeLIBMAN();
+            closeLIBMAN();
         });
 
         FXMLLoader loader = new FXMLLoader(ClientGUI.class.getResource("/views/MainFrame.fxml"));
