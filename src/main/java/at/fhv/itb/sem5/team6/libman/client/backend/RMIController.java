@@ -26,7 +26,7 @@ public class RMIController {
         }
     }
 
-    public static void doConnection(String username, String password) throws RemoteException, NotBoundException {
+    public void doConnection(String username, String password) throws RemoteException, NotBoundException {
         Registry registry = LocateRegistry.getRegistry(host, port);
         ILibraryFactory stubFactory = (ILibraryFactory) registry.lookup("LibraryFactory");
         ILibrary stub = stubFactory.create(username, password);

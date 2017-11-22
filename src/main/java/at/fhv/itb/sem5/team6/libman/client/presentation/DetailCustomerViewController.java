@@ -3,8 +3,6 @@ package at.fhv.itb.sem5.team6.libman.client.presentation;
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
 import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
-import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.util.Callback;
 
 import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
@@ -129,7 +126,7 @@ public class DetailCustomerViewController {
         }
 
         for (ReservationDTO reservation : allReservations) {
-            reservationEntries.add(new ReservationEntry(reservation.getMedia().getTitle(),reservation.getMedia().getType().toString(), customerDTO, reservation.getMedia(), reservation));
+            reservationEntries.add(new ReservationEntry(reservation));
         }
 
         tableViewReservation.setItems(reservationEntries);

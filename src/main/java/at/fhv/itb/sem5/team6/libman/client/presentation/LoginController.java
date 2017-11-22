@@ -50,23 +50,25 @@ public class LoginController {
         try {
             RMIController.getInstance().doConnection(null, null);
             gui.loadSearchForGuest();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (NotBoundException e) {
-            e.printStackTrace();
+        } catch (IOException | NotBoundException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
         }
     }
 
     @FXML
-    void login() throws IOException, NotBoundException {
-        RMIController.getInstance().doConnection(username.getText(), password.getText());
-        ClientGUI gui = new ClientGUI();
-        gui.loadGUI(ClientGUI.primaryStage);
+    void login() {
+        try {
+            RMIController.getInstance().doConnection(username.getText(), password.getText());
+            ClientGUI gui = new ClientGUI();
+            gui.loadGUI(ClientGUI.primaryStage);
+        } catch (NotBoundException | IOException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
     }
 
     //handles the Enter-Key-Button for faster login.
     @FXML
-    public void handleEnterPressed(KeyEvent event) throws IOException, NotBoundException {
+    public void handleEnterPressed(KeyEvent event) {
         if(event.getCode() == KeyCode.ENTER){
             login();
         }

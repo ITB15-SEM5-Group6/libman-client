@@ -15,11 +15,11 @@ public class ReservationEntry {
     private ReservationDTO reservationDTO;
 
 
-    public ReservationEntry(String media, String date, CustomerDTO customerDTO, MediaDTO mediaDTO, ReservationDTO reservationDTO) {
-        this.media = new SimpleStringProperty(media);
-        this.date = new SimpleStringProperty(date);
-        this.customerDTO = customerDTO;
-        this.mediaDTO = mediaDTO;
+    public ReservationEntry(ReservationDTO reservationDTO) {
+        this.media = new SimpleStringProperty(reservationDTO.getMedia().getTitle());
+        this.date = new SimpleStringProperty(reservationDTO.getMedia().getReleaseDate().toString());
+        this.customerDTO = reservationDTO.getCustomer();
+        this.mediaDTO = reservationDTO.getMedia();
         this.reservationDTO = reservationDTO;
     }
 
