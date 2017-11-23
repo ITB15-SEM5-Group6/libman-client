@@ -85,8 +85,15 @@ public class NewLendingController {
         lendCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SelectMediaEntry, Boolean>, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<SelectMediaEntry, Boolean> features) {
-                boolean initialValue = features.getValue() != null && Availability.AVAILABLE.toString().equals(features.getValue().getAvailability());
-                return new SimpleBooleanProperty(initialValue);
+                boolean mediaIsAvailable = false;
+                try {
+                    List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(features.getValue().getMediaDTO().getId());
+                    List<PhysicalMediaDTO> physicalMediaList = ClientController.getInstance().findPhysicalMediasByMedia(features.getValue().getMediaDTO().getId());
+                    mediaIsAvailable = (Availability.AVAILABLE.toString().equals(features.getValue().getAvailability()) && physicalMediaList.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? true : false;
+                } catch (Exception e) {
+                    MessageHelper.showErrorAlertMessage(e.getMessage());
+                }
+                return new SimpleBooleanProperty(features.getValue() != null && mediaIsAvailable);
             }
         });
 
@@ -95,18 +102,19 @@ public class NewLendingController {
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
         reservateCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SelectMediaEntry, Boolean>, ObservableValue<Boolean>>() {
-            boolean mediaIsAvailable = false;
+            boolean mediaIsReservable = false;
 
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<SelectMediaEntry, Boolean> features) {
                 try {
                     List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(features.getValue().getMediaDTO().getId());
                     List<PhysicalMediaDTO> physicalMediaList = ClientController.getInstance().findPhysicalMediasByMedia(features.getValue().getMediaDTO().getId());
-                    mediaIsAvailable = (physicalMediaList.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? true : false;
-                } catch (RemoteException e) {
+                    boolean areAllPhysicalMediasNotAvailable = physicalMediaList.stream().filter(x -> x.getAvailability().equals(Availability.NOT_AVAILABLE)).count() == physicalMediaList.size();
+                    mediaIsReservable = areAllPhysicalMediasNotAvailable || (physicalMediaList.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() <= reservations.size()) ? true : false;
+                } catch (Exception e) {
                     MessageHelper.showErrorAlertMessage(e.getMessage());
                 }
-                return new SimpleBooleanProperty(mediaIsAvailable);
+                return new SimpleBooleanProperty(mediaIsReservable);
             }
         });
 
