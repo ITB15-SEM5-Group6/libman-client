@@ -5,6 +5,8 @@ import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.ReservationDTO;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.text.SimpleDateFormat;
+
 public class ReservationEntry {
 
     private SimpleStringProperty title;
@@ -17,8 +19,10 @@ public class ReservationEntry {
 
 
     public ReservationEntry(ReservationDTO reservationDTO) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
+
         this.title = new SimpleStringProperty(reservationDTO.getMedia().getTitle());
-        this.date = new SimpleStringProperty(reservationDTO.getMedia().getReleaseDate().toString());
+        this.date = new SimpleStringProperty(sdf.format(reservationDTO.getMedia().getReleaseDate()));
         this.mediaType = new SimpleStringProperty(reservationDTO.getMedia().getType().toString());
         this.customerDTO = reservationDTO.getCustomer();
         this.mediaDTO = reservationDTO.getMedia();

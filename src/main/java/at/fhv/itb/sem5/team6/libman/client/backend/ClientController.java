@@ -1,16 +1,11 @@
 package at.fhv.itb.sem5.team6.libman.client.backend;
 
 
-
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.*;
-
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
-
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
+import at.fhv.itb.sem5.team6.libman.shared.enums.UserRole;
 import at.fhv.itb.sem5.team6.libman.shared.interfaces.ILibrary;
 
 import java.rmi.RemoteException;
@@ -29,6 +24,10 @@ public class ClientController {
         } else {
             return instance;
         }
+    }
+
+    public UserRole getUserRole() throws RemoteException {
+        return library.getUserRole();
     }
 
     public static void setLibrary(ILibrary library) {
@@ -81,6 +80,18 @@ public class ClientController {
 
     public void returnLending(String lendingId) throws RemoteException {
         library.returnLending(lendingId);
+    }
+
+    public int getMaxExtensions() throws RemoteException {
+        return library.getMaxExtensions();
+    }
+
+    public boolean isLendPossible(String reservationId) throws RemoteException {
+        return library.isLendPossible(reservationId);
+    }
+
+    public int getNumberOfAvailableMedias(String mediaId) throws  RemoteException {
+        return library.getNumberOfAvailableMedias(mediaId);
     }
 
 }

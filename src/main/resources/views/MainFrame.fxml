@@ -8,7 +8,7 @@
       minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111"
       fx:controller="at.fhv.itb.sem5.team6.libman.client.presentation.MainFrameController">
    <children>
-       <MenuBar nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="298.0">
+       <MenuBar fx:id="menuBar" nodeOrientation="RIGHT_TO_LEFT" prefHeight="25.0" prefWidth="298.0">
         <menus>
             <Menu mnemonicParsing="false" text="Options">
             <items>
@@ -39,13 +39,16 @@
                     </rowConstraints>
                      <children>
                         <Button fx:id="searchButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openSearch" text="Media Search" GridPane.rowIndex="1" />
-                        <Button fx:id="customerButton" visible="false" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openAddCustomer" text="Add Customer" GridPane.rowIndex="3" />
+                         <Button fx:id="customerButton" minHeight="50.0" minWidth="150.0" mnemonicParsing="false"
+                                 onAction="#openAddCustomer" text="Add Customer" visible="false" GridPane.rowIndex="3"/>
                         <ImageView fx:id="imageViewLogo" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/logo_libman.png" />
                            </image>
                         </ImageView>
                         <Button fx:id="buttonCustomerSearch" layoutX="23.0" layoutY="90.0" minHeight="50.0" minWidth="150.0" mnemonicParsing="false" onAction="#openCustomerSearch" text="Customer Search" GridPane.rowIndex="2" />
+                         <Button fx:id="buttonMessageService" minHeight="50.0" minWidth="150.0" mnemonicParsing="false"
+                                 onAction="#openMessageService" text="Message Service" GridPane.rowIndex="3"/>
                      </children>
                   </GridPane>
                </children></AnchorPane>

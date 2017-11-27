@@ -22,6 +22,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import sun.plugin2.message.Message;
 
 import java.rmi.RemoteException;
 import java.util.List;
@@ -85,8 +86,14 @@ public class NewLendingController {
         lendCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SelectMediaEntry, Boolean>, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<SelectMediaEntry, Boolean> features) {
-                boolean initialValue = features.getValue() != null && Availability.AVAILABLE.toString().equals(features.getValue().getAvailability());
-                return new SimpleBooleanProperty(initialValue);
+                try {
+                    if(Availability.AVAILABLE.toString().equals(features.getValue().getAvailability()) && ClientController.getInstance().getNumberOfAvailableMedias(features.getValue().getMediaDTO().getId()) > 0) {
+                        return new SimpleBooleanProperty(true);
+                    }
+                } catch (Exception e) {
+                    MessageHelper.showErrorAlertMessage(e.getMessage());
+                }
+                return new SimpleBooleanProperty(false);
             }
         });
 
@@ -95,23 +102,23 @@ public class NewLendingController {
 
         // define a simple boolean cell value for the action column so that the column will only be shown for non-empty rows.
         reservateCol.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<SelectMediaEntry, Boolean>, ObservableValue<Boolean>>() {
-            boolean mediaIsAvailable = false;
 
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<SelectMediaEntry, Boolean> features) {
                 try {
-                    List<ReservationDTO> reservations = ClientController.getInstance().findReservationsByMedia(features.getValue().getMediaDTO().getId());
-                    List<PhysicalMediaDTO> physicalMediaList = ClientController.getInstance().findPhysicalMediasByMedia(features.getValue().getMediaDTO().getId());
-                    mediaIsAvailable = (physicalMediaList.stream().filter(x -> x.getAvailability().equals(Availability.AVAILABLE)).count() > reservations.size()) ? true : false;
-                } catch (RemoteException e) {
+                    if(Availability.NOT_AVAILABLE.toString().equals(features.getValue().getAvailability()) && ClientController.getInstance().getNumberOfAvailableMedias(features.getValue().getMediaDTO().getId()) <= 0) {
+                        return new SimpleBooleanProperty(true);
+                    }
+                } catch (Exception e) {
                     MessageHelper.showErrorAlertMessage(e.getMessage());
                 }
-                return new SimpleBooleanProperty(mediaIsAvailable);
+                return new SimpleBooleanProperty(false);
             }
         });
 
-        tableView.getColumns().addAll(titleCol, mediaTypeCol, indexCol, availabilityCol, lendCol);
+        tableView.getColumns().addAll(titleCol, mediaTypeCol, indexCol, availabilityCol, lendCol, reservateCol);
         createDynamicLendButton();
+        createDynamicReservateButton();
     }
 
     @FXML
@@ -177,7 +184,7 @@ public class NewLendingController {
             if (searchText.isEmpty()) {
                 MessageHelper.showErrorAlertMessage("Please enter a search text!");
             } else {
-                List<MediaDTO> mediaList = ClientController.getInstance().findAllMedia(searchText, Genre.ALL, MediaType.ALL, Availability.AVAILABLE);
+                List<MediaDTO> mediaList = ClientController.getInstance().findAllMedia(searchText, Genre.ALL, MediaType.ALL, Availability.ALL);
 
                 for (MediaDTO media : mediaList) {
                     List<PhysicalMediaDTO> physicalMediaList = ClientController.getInstance().findPhysicalMediasByMedia(media.getId());

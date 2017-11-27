@@ -4,6 +4,7 @@ import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.LendingDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.LendingState;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 import java.text.SimpleDateFormat;
@@ -16,12 +17,13 @@ public class LendingEntry {
     private SimpleStringProperty index;
     private SimpleStringProperty lendingDate;
     private SimpleStringProperty lendingState;
+    private SimpleIntegerProperty extensions;
 
     private CustomerDTO customerDTO;
     private PhysicalMediaDTO physicalMediaDTO;
     private LendingDTO lendingDTO;
 
-    public LendingEntry(String title, String mediaType, String index, Date lendingDate, LendingState state, CustomerDTO customerDTO, PhysicalMediaDTO physicalMediaDTO, LendingDTO lendingDTO) {
+    public LendingEntry(String title, String mediaType, String index, Date lendingDate, LendingState state, Integer extensions, CustomerDTO customerDTO, PhysicalMediaDTO physicalMediaDTO, LendingDTO lendingDTO) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy");
         this.title = new SimpleStringProperty(title);
@@ -29,6 +31,7 @@ public class LendingEntry {
         this.index = new SimpleStringProperty(index);
         this.lendingDate = new SimpleStringProperty(sdf.format(lendingDate));
         this.lendingState = new SimpleStringProperty(state.toString());
+        this.extensions = new SimpleIntegerProperty(extensions);
 
         this.customerDTO = customerDTO;
         this.physicalMediaDTO = physicalMediaDTO;
