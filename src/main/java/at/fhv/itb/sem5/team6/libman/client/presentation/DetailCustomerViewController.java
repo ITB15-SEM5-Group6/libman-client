@@ -1,5 +1,6 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
+import at.fhv.itb.sem5.team6.libman.client.Client;
 import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButton.ExtendLendingCell;
 import at.fhv.itb.sem5.team6.libman.client.presentation.DynamicButton.LendReservationCell;
@@ -137,6 +138,16 @@ public class DetailCustomerViewController {
         ExtendLendingColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<LendingEntry, Boolean>, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<LendingEntry, Boolean> features) {
+                try {
+                    int availableMedias = ClientController.getInstance().getNumberOfAvailableMedias(features.getValue().getPhysicalMediaDTO().getMedia().getId());
+                    int maxExtensions = ClientController.getInstance().getMaxExtensions();
+                    if(LendingState.LENT.equals(features.getValue().getLendingDTO().getState()) && availableMedias >= 0 && maxExtensions > features.getValue().getLendingDTO().getExtensions()) {
+                        return new SimpleBooleanProperty(true);
+                    }
+                    return new SimpleBooleanProperty(false);
+                } catch (RemoteException e) {
+                    MessageHelper.showErrorAlertMessage(e.getMessage());
+                }
                 boolean initialValue = features.getValue() != null && LendingState.LENT.toString().equals(features.getValue().getLendingState());
                 return new SimpleBooleanProperty(initialValue);
             }
@@ -155,8 +166,13 @@ public class DetailCustomerViewController {
         LendReservationColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<ReservationEntry, Boolean>, ObservableValue<Boolean>>() {
             @Override
             public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ReservationEntry, Boolean> features) {
-                boolean initialValue = features.getValue() != null;
-                return new SimpleBooleanProperty(initialValue);
+                try {
+                    boolean test = ClientController.getInstance().isLendPossible(features.getValue().getReservationDTO().getId());
+                    return new SimpleBooleanProperty(test);
+                } catch (Exception e) {
+                    MessageHelper.showErrorAlertMessage(e.getMessage());
+                }
+                return null;
             }
         });
     }
@@ -174,6 +190,7 @@ public class DetailCustomerViewController {
                         lending.getPhysicalMedia().getIndex(),
                         lending.getLendDate(),
                         lending.getState(),
+                        lending.getExtensions(),
                         customerDTO,
                         lending.getPhysicalMedia(),
                         lending));
@@ -218,6 +235,7 @@ public class DetailCustomerViewController {
                         if (lendingDTO != null && LendingState.LENT == lendingDTO.getState()) {
                             ClientController.getInstance().returnLending(lendingDTO.getId());
                             loadLendings();
+                            loadReservations();
                         } else {
                             MessageHelper.showErrorAlertMessage("Lending is already returned!");
                         }
@@ -309,27 +327,9 @@ public class DetailCustomerViewController {
         NewLendingController.detailStage = stage;
         stage.show();
         stage.setOnHiding(event -> {
+            loadReservations();
             loadLendings();
         });
-    }
-
-    @FXML
-    void openNewReservationDlg() {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("/views/NewReservationView.fxml"));
-        Scene scene = null;
-        try {
-            scene = new Scene(fxmlLoader.load());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Stage stage = new Stage();
-        stage.setTitle("New Reservation");
-        stage.setScene(scene);
-        stage.getIcons().add(new Image("file:src/main/resources/images/logo_libman.png"));
-        //NewReservationController.detailStage = stage;
-        stage.show();
     }
 }
 

@@ -33,6 +33,9 @@ public class LendReservationCell extends TableCell<ReservationEntry, Boolean> {
     @Override
     protected void updateItem(Boolean item, boolean empty) {
         //only if item is true the button is displayed
+        if (item != null && !item) {
+            empty = true;
+        }
         super.updateItem(item, empty);
 
         if (!empty) {

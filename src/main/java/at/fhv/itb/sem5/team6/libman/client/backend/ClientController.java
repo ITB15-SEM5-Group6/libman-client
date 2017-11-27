@@ -83,4 +83,16 @@ public class ClientController {
         library.returnLending(lendingId);
     }
 
+    public int getMaxExtensions() throws RemoteException {
+        return library.getMaxExtensions();
+    }
+
+    public boolean isLendPossible(String reservationId) throws RemoteException {
+        return library.isLendPossible(reservationId);
+    }
+
+    public int getNumberOfAvailableMedias(String mediaId) throws  RemoteException {
+        return library.getNumberOfAvailableMedias(mediaId);
+    }
+
 }
