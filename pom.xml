@@ -42,5 +42,22 @@
         </dependency>
     </dependencies>
 
-
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>at.fhv.itb.sem5.team6.libman.client.Client</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

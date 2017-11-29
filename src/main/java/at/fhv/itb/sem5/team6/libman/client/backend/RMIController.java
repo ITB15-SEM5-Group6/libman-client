@@ -11,9 +11,9 @@ import java.rmi.registry.Registry;
 public class RMIController {
 
     static String host = "localhost";
+    //static String host = "10.0.51.96";
     static int port = 1099;
     private static RMIController instance = null;
-
 
     protected RMIController() {
     }

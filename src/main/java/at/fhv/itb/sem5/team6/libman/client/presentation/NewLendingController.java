@@ -7,7 +7,6 @@ import at.fhv.itb.sem5.team6.libman.client.presentation.Entry.SelectMediaEntry;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.CustomerDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.MediaDTO;
 import at.fhv.itb.sem5.team6.libman.shared.DTOs.PhysicalMediaDTO;
-import at.fhv.itb.sem5.team6.libman.shared.DTOs.ReservationDTO;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Availability;
 import at.fhv.itb.sem5.team6.libman.shared.enums.Genre;
 import at.fhv.itb.sem5.team6.libman.shared.enums.MediaType;
@@ -22,7 +21,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
-import sun.plugin2.message.Message;
 
 import java.rmi.RemoteException;
 import java.util.List;
