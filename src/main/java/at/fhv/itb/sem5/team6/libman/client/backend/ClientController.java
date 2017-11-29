@@ -94,4 +94,8 @@ public class ClientController {
         return library.getNumberOfAvailableMedias(mediaId);
     }
 
+    public String getNextMessage() throws RemoteException {
+        return library.getNextMessage();
+    }
+
 }

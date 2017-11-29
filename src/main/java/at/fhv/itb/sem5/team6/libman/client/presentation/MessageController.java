@@ -1,8 +1,11 @@
 package at.fhv.itb.sem5.team6.libman.client.presentation;
 
+import at.fhv.itb.sem5.team6.libman.client.backend.ClientController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
+
+import java.rmi.RemoteException;
 
 
 public class MessageController {
@@ -16,13 +19,18 @@ public class MessageController {
     @FXML
     void initialize() {
         previousMessage = "";
-        messageField.setText("JavaFX ist ein Framework zur Erstellung plattformübergreifender Java-Applikationen. \n Es ist eine Java-Spezifikation von Oracle und setzt sich zum Ziel, das professionelle Erstellen und Verteilen von interaktiven, \n multimedialen Inhalten und grafischen Benutzeroberflächen (GUIs) über sämtliche Java-Plattformen \n hinweg zu erleichtern.");
+        messageField.setText("");
     }
 
     @FXML
     void getNextMessage(ActionEvent event) {
         previousMessage = messageField.getText();
         messageField.clear();
+        try {
+            messageField.setText(ClientController.getInstance().getNextMessage());
+        } catch (RemoteException e) {
+            MessageHelper.showErrorAlertMessage(e.getMessage());
+        }
     }
 
     @FXML
