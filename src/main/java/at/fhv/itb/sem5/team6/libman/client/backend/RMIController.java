@@ -10,7 +10,7 @@ import java.rmi.registry.Registry;
 
 public class RMIController {
 
-    static String host = "localhost";
+    public static String host = "localhost";
     //static String host = "10.0.51.96";
     static int port = 1099;
     private static RMIController instance = null;
@@ -33,5 +33,7 @@ public class RMIController {
         ClientController.setLibrary(stub);
     }
 
-
+    public static void setHost(String host) {
+        RMIController.host = host;
+    }
 }
